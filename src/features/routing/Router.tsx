@@ -3,8 +3,8 @@ import { ROUTES } from './constants';
 import { lazy, Suspense } from 'react';
 import ProtectedRouteOutlet from './ProtectedRouteOutlet';
 import HomePage from './HomePage';
-import { AppLayout } from '../layout/AppLayout';
-import { Loader2 } from 'lucide-react';
+import { AppLayout } from '@/features/layout/AppLayout';
+import { AppLoading } from '@/features/layout/AppLoading';
 
 const LoginPage = lazy(() => import('@/features/auth/LoginPage'));
 const AdminPage = lazy(() => import('@/features/admin/AdminPage'));
@@ -18,13 +18,7 @@ export const Router = () => {
         <Route element={<AppLayout />}>
           <Route
             element={
-              <Suspense
-                fallback={
-                  <div className='flex justify-center items-center mt-20 text-gray-500'>
-                    <Loader2 className='animate-spin' size={48} />
-                  </div>
-                }
-              >
+              <Suspense fallback={<AppLoading />}>
                 <Outlet />
               </Suspense>
             }
@@ -36,6 +30,8 @@ export const Router = () => {
               <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
               <Route path={ROUTES.ONBOARDING} element={<OnboardingPage />} />
             </Route>
+            {/* TODO: Add 404 page */}
+            <Route path='*' element={<HomePage />} />
           </Route>
         </Route>
       </Routes>

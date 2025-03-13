@@ -1,14 +1,17 @@
-import { Input } from '@/core/components/Input';
-import { AuthContent } from '../layout/AuthContent';
-import { Form } from '@/core/components/Form';
-import { Field } from '@/core/components/Field';
-import { useForm } from 'react-hook-form';
-import { Eye, Lock, Mail } from 'lucide-react';
 import { Button } from '@/core/components/Button';
+import { Field } from '@/core/components/Field';
+import { Form } from '@/core/components/Form';
+import { Input } from '@/core/components/Input';
 import { PasswordInput } from '@/core/components/PasswordInput';
-import { z } from 'zod';
+import { AuthContent } from '@/features/layout/AuthContent';
+import { getDefaultPathname } from '@/features/routing/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, Lock, Mail } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { z } from 'zod';
 import { useLoginMutation } from './rtkApis';
+import { setAccessToken, setClientToken } from './utils';
 
 const loginSchema = z.object({
   email: z
@@ -21,6 +24,8 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -45,7 +50,18 @@ export default function LoginPage() {
 
         form.setError(errorField, { message: response.error.message });
       }
+
+      return;
     }
+
+    const { accessToken, clientToken } = response.data.tokens;
+
+    setAccessToken(accessToken);
+    setClientToken(clientToken);
+
+    const pathname = await getDefaultPathname(response.data.view);
+
+    navigate(pathname);
   };
 
   return (

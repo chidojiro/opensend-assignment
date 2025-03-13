@@ -1,32 +1,16 @@
 import { baseQuery } from '@/features/redux/rtkApis';
-import { ApiErrorResponse, ApiResponse } from '@/features/redux/types';
-import { createApi, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-
-type LoginRequest = {
-  email: string;
-  password: string;
-};
-
-type LoginResponse = {
-  accesses: { store_id: number }[];
-  view: {
-    type: 'ADMIN' | 'CLIENT';
-  };
-  tokens: {
-    accessToken: string;
-    refreshToken: string;
-    clientToken: string;
-  };
-};
-
-type LoginError = FetchBaseQueryError & {
-  data: ApiErrorResponse;
-};
+import { ApiResponse } from '@/features/redux/types';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { LoginError, LoginRequest, LoginResponse, ProfileResponse } from './types';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery,
   endpoints: (builder) => ({
+    profile: builder.query<ApiResponse<ProfileResponse>, void>({
+      query: () => '/self/profile',
+    }),
+
     login: builder.mutation<ApiResponse<LoginResponse>, LoginRequest>({
       query: (request) => ({
         url: '/auth/login',
@@ -43,4 +27,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useProfileQuery } = authApi;
