@@ -11,7 +11,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useLoginMutation } from './rtkApis';
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email' }),
+  email: z
+    .string()
+    .min(1, { message: 'Email is required' })
+    .email({ message: 'Please enter a valid email' }),
   password: z.string().min(1, { message: 'Password is required' }),
 });
 
