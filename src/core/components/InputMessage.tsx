@@ -7,7 +7,5 @@ type Props = {
 };
 
 export const InputMessage = ({ children, className, error }: Props) => {
-  return (
-    <p className={classNames('text-sm mt-1', className, error && 'text-red-500')}>{children}</p>
-  );
+  return <p className={classNames(className, error && 'text-red-500')}>{children}</p>;
 };

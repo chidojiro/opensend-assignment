@@ -6,17 +6,53 @@ import { useForm } from 'react-hook-form';
 import { Eye, Lock, Mail } from 'lucide-react';
 import { Button } from '@/core/components/Button';
 import { PasswordInput } from '@/core/components/PasswordInput';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useLoginMutation } from './rtkApis';
+
+const loginSchema = z.object({
+  email: z.string().email({ message: 'Please enter a valid email' }),
+  password: z.string().min(1, { message: 'Password is required' }),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const form = useForm();
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  });
+
+  const [login] = useLoginMutation();
+
+  const handleValidSubmit = async (data: LoginFormData) => {
+    const response = await login(data);
+
+    if (response.error) {
+      if ('message' in response.error && 'code' in response.error) {
+        const isPasswordError = response.error.code?.toLocaleLowerCase().includes('password');
+        const errorField = isPasswordError ? 'password' : 'email';
+
+        form.setError(errorField, { message: response.error.message });
+      }
+    }
+  };
 
   return (
     <AuthContent>
       <div className='flex flex-col gap-4 text-center'>
-        <h1 className='text-2xl font-semibold'>Welcome back!</h1>
-        <p className='text-sm'>Login to continue with Opensend</p>
+        <h1 className='text-3xl font-semibold'>Welcome back!</h1>
+        <p>Login to continue with Opensend</p>
       </div>
-      <Form form={form} className='flex flex-col gap-4 mt-8'>
+      <Form
+        form={form}
+        onSubmit={form.handleSubmit(handleValidSubmit)}
+        className='flex flex-col gap-4 mt-8'
+      >
         <Field component={Input} name='email' type='email' placeholder='Email' prefix={<Mail />} />
         <Field
           component={PasswordInput}
@@ -28,7 +64,13 @@ export default function LoginPage() {
         />
 
         <div className='flex flex-col gap-2'>
-          <Button>Login</Button>
+          <Button
+            type='submit'
+            disabled={!form.formState.isValid || !form.formState.isDirty}
+            loading={form.formState.isSubmitting}
+          >
+            Login
+          </Button>
           <Button variant='outline-secondary'>Forgot your password?</Button>
         </div>
       </Form>

@@ -11,7 +11,7 @@ const buttonVariants = cva(
     'transition-colors cursor-pointer',
     'rounded border border-transparent',
     'whitespace-nowrap font-medium',
-    'h-10 px-4 text-md',
+    'h-10 px-4 text-lg',
     'disabled:pointer-events-none disabled:opacity-50',
     '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   ),
