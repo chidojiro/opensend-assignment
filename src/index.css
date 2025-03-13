@@ -2,11 +2,19 @@
 
 @plugin "tailwindcss-animate";
 
+@theme {
+  --color-primary: #288364;
+}
+
 @layer base {
   *,
   ::after,
   ::before,
   ::backdrop {
     box-sizing: border-box;
+  }
+
+  button {
+    cursor: pointer;
   }
 }
