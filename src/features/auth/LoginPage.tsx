@@ -27,6 +27,9 @@ export default function LoginPage() {
     mode: 'onChange',
   });
 
+  // formState.isDirty is not working if value is pasted, so we need to check each fields
+  const isDirty = Object.values(form.formState.dirtyFields).some(Boolean);
+
   const [login] = useLoginMutation();
 
   const handleValidSubmit = async (data: LoginFormData) => {
@@ -66,7 +69,7 @@ export default function LoginPage() {
         <div className='flex flex-col gap-2'>
           <Button
             type='submit'
-            disabled={!form.formState.isValid || !form.formState.isDirty}
+            disabled={!form.formState.isValid || !isDirty}
             loading={form.formState.isSubmitting}
           >
             Login
