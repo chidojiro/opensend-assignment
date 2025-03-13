@@ -11,6 +11,7 @@
   ::after,
   ::before,
   ::backdrop {
+    font-family: 'Darker Grotesque', 'Inter', sans-serif;
     box-sizing: border-box;
   }
 
