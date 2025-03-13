@@ -59,12 +59,20 @@ export default function LoginPage() {
         onSubmit={form.handleSubmit(handleValidSubmit)}
         className='flex flex-col gap-4 mt-8'
       >
-        <Field component={Input} name='email' type='email' placeholder='Email' prefix={<Mail />} />
+        <Field
+          component={Input}
+          name='email'
+          type='email'
+          placeholder='Email'
+          autoComplete='email'
+          prefix={<Mail />}
+        />
         <Field
           component={PasswordInput}
           name='password'
           type='password'
           placeholder='Password'
+          autoComplete='current-password'
           prefix={<Lock />}
           suffix={<Eye />}
         />

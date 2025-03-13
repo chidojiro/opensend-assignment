@@ -1,14 +1,11 @@
-import LoginPage from '@/features/auth/LoginPage';
-import { AppLayout } from '@/features/layout/AppLayout';
 import { store } from '@/store';
 import { Provider } from 'react-redux';
+import { Router } from '@/features/routing/Router';
 
 export const App = () => {
   return (
     <Provider store={store}>
-      <AppLayout>
-        <LoginPage />
-      </AppLayout>
+      <Router />
     </Provider>
   );
 };

@@ -8,6 +8,7 @@ type LoginRequest = {
 };
 
 type LoginResponse = {
+  accesses: { store_id: number }[];
   view: {
     type: 'ADMIN' | 'CLIENT';
   };
@@ -16,7 +17,7 @@ type LoginResponse = {
     refreshToken: string;
     clientToken: string;
   };
-}
+};
 
 type LoginError = FetchBaseQueryError & {
   data: ApiErrorResponse;
@@ -43,5 +44,3 @@ export const authApi = createApi({
 });
 
 export const { useLoginMutation } = authApi;
-
-
