@@ -20,6 +20,13 @@ const buttonVariants = cva(
       variant: {
         'solid-primary': 'bg-primary text-white hover:bg-primary/85',
         'outline-secondary': 'border-gray-400 hover:text-black/75',
+        'ghost-secondary': 'hover:bg-gray-100',
+      },
+      pill: {
+        true: 'rounded-full',
+      },
+      square: {
+        true: 'aspect-square p-0 overflow-hidden',
       },
     },
     defaultVariants: {
@@ -44,6 +51,8 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
       loading,
       disabled,
       children,
+      pill,
+      square,
       ...restProps
     },
     ref,
@@ -53,7 +62,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
     return (
       <Comp
         type={type}
-        className={classNames(buttonVariants({ variant, className }))}
+        className={classNames(buttonVariants({ variant, pill, square, className }))}
         ref={ref}
         disabled={disabled || loading}
         {...restProps}

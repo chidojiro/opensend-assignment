@@ -16,7 +16,7 @@
   }
 
   button {
-    cursor: pointer;
+    @apply cursor-pointer outline-none;
   }
 }
 
