@@ -19,7 +19,7 @@ export const WidgetCard = ({ widget, className, ...restProps }: Props) => {
     }, 50);
   };
 
-  const handleClickTrackEnd = () => {
+  const handleInvalidateClick = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -39,8 +39,8 @@ export const WidgetCard = ({ widget, className, ...restProps }: Props) => {
         // so we need to use mouse events and timeout to manually detect a click
         onMouseDown={handleClickTrackStart}
         onTouchStart={handleClickTrackStart}
-        onMouseMove={handleClickTrackEnd}
-        onTouchMove={handleClickTrackEnd}
+        onMouseMove={handleInvalidateClick}
+        onTouchMove={handleInvalidateClick}
       >
         <h3 className='text-lg md:text-2xl font-medium text-center'>{widget.title}</h3>
         <p className='text-gray-500 text-center'>{widget.description}</p>
