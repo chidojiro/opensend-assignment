@@ -14,11 +14,8 @@ import { useLoginMutation } from './rtkApis';
 import { setAccessToken, setClientToken } from './utils';
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: 'Email is required' })
-    .email({ message: 'Please enter a valid email' }),
-  password: z.string().min(1, { message: 'Password is required' }),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+  password: z.string().min(8, { message: 'Password should have at least 8 characters.' }),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -101,7 +98,14 @@ export default function LoginPage() {
           >
             Login
           </Button>
-          <Button variant='outline-secondary'>Forgot your password?</Button>
+          <Button
+            variant='outline-secondary'
+            onClick={() => {
+              alert('This feature is not implemented yet.');
+            }}
+          >
+            Forgot your password?
+          </Button>
         </div>
       </Form>
     </AuthContent>

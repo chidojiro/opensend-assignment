@@ -19,3 +19,11 @@
     cursor: pointer;
   }
 }
+
+.react-resizable-handle:after {
+  @apply hidden;
+}
+
+div.react-grid-item.react-grid-placeholder {
+  @apply bg-gray-400/70 rounded-xl;
+}
