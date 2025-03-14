@@ -15,7 +15,8 @@ const DEFAULT_SIZE = 4;
 
 type Props = {
   widgets: Widget[];
-  onLayoutChange?: (layout: Layout[]) => void;
+  layout: Layout[];
+  onLayoutChange: (layout: Layout[]) => void;
   cols?: number;
   gap?: number;
   minSize?: number;
@@ -24,6 +25,7 @@ type Props = {
 
 const WrappedWidgetGridLayout = ({
   widgets,
+  layout: layoutProp,
   onLayoutChange = () => {},
   cols = DEFAULT_COLS,
   gap = DEFAULT_GAP,
@@ -31,7 +33,7 @@ const WrappedWidgetGridLayout = ({
   defaultSize = DEFAULT_SIZE,
   pxPerUnit,
 }: Props & { pxPerUnit: number }) => {
-  const [layout, setLayout] = useState<RGL.Layout[]>(
+  const defaultLayoutRef = useRef<Layout[]>(
     widgets.map((widget, index) => ({
       x: (index * defaultSize) % cols,
       y: Math.floor(index / cols) * pxPerUnit,
@@ -43,15 +45,12 @@ const WrappedWidgetGridLayout = ({
     })),
   );
 
-  const handleLayoutChange = (newLayout: Layout[]) => {
-    setLayout(newLayout);
-    onLayoutChange(newLayout);
-  };
+  const layout = layoutProp?.length ? layoutProp : defaultLayoutRef.current;
 
   return (
     <ReactGridLayout
       layout={layout}
-      onLayoutChange={handleLayoutChange}
+      onLayoutChange={onLayoutChange}
       rowHeight={pxPerUnit}
       cols={cols}
       margin={[gap, gap]}
