@@ -2,6 +2,8 @@
 
 A flexible and responsive dashboard grid system built with React and TypeScript. This system allows for dynamic widget layouts with features like drag-and-drop, resizing, and aspect ratio preservation.
 
+Demo: https://profound-sawine-a4575d.netlify.app/
+
 ## Features
 
 - Authentication and conditional routing
@@ -50,7 +52,6 @@ npm run preview
 ## Folder Structure
 
 - `src/`: Contains the source code for the application.
-  - `assets/`: Contains static assets like images and icons.
   - `features/`: Contains the main features of the application.
     - `dashboard/`: Contains the dashboard component and its related files.
       - `WidgetGridLayout.tsx`: The main component for the dashboard grid layout.
