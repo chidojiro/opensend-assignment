@@ -19,8 +19,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         'solid-primary': 'bg-primary text-white hover:bg-primary/85',
-        'outline-secondary': 'border-gray-400 hover:text-black/75',
-        'ghost-secondary': 'hover:bg-gray-200/70',
+        'outline-secondary': 'border-gray-400 hover:text-black/75 dark:hover:text-white/75',
+        'ghost-secondary': 'hover:bg-gray-200/70 dark:hover:bg-gray-800/40',
       },
       pill: {
         true: 'rounded-full',

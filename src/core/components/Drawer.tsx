@@ -47,11 +47,11 @@ const DrawerContent = forwardRef<
         className={classNames(
           'fixed z-40 left-0',
           'top-header',
-          'w-96 max-w-[80vw] h-[calc(100vh-48px)]',
+          'w-96 max-w-[85vw] h-[calc(100vh-48px)]',
           'py-5 px-4',
-          'bg-gray-100',
+          'bg-gray-100 dark:bg-gray-700',
           'overflow-y-auto',
-          'border-r border-gray-300',
+          'border-r border-gray-300 dark:border-gray-700',
           'flex flex-col',
           className,
         )}

@@ -35,8 +35,7 @@ export const isAccessTokenValid = () => {
 };
 
 export const logout = () => {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
-  localStorage.removeItem(CLIENT_TOKEN_KEY);
+  localStorage.clear();
 
   window.location.href = ROUTES.LOGIN;
 };

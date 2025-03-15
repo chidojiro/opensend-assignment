@@ -1,5 +1,5 @@
-import { Layout } from "react-grid-layout";
-import { Widget } from "./types";
+import { Layout } from 'react-grid-layout';
+import { Widget } from './types';
 
 export const getDefaultLayout = (widgets: Widget[], { minSize }: { minSize: number }) => {
   const layout: Layout[] = [];
@@ -25,7 +25,10 @@ export const getDefaultLayout = (widgets: Widget[], { minSize }: { minSize: numb
   return layout;
 };
 
-export const isValidLayout = (layout: Layout, { ratio, minSize, cols }: { ratio: number; minSize: number; cols: number }) => {
+export const isValidLayout = (
+  layout: Layout,
+  { ratio, minSize, cols }: { ratio: number; minSize: number; cols: number },
+) => {
   if (!Number.isInteger(layout.w) || !Number.isInteger(layout.h)) {
     return false;
   }

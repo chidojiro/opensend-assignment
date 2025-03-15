@@ -2,6 +2,8 @@
 
 @plugin "tailwindcss-animate";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
   --color-primary: #288364;
 
@@ -14,7 +16,13 @@
   ::before,
   ::backdrop {
     font-family: 'Darker Grotesque', 'Inter', sans-serif;
+    box-sizing: inherit;
+  }
+
+  html {
     box-sizing: border-box;
+
+    @apply dark:text-gray-100;
   }
 
   button {

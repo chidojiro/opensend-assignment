@@ -185,37 +185,42 @@ export const WidgetGridLayout = ({
   }, [colsByBreakpoint, gap, activeCols]);
 
   return (
-    <div className='relative max-w-full overflow-hidden' ref={containerRef}>
-      {activeCols && (
-        <WidgetGridCells
-          isGridVisible={isGridVisible}
-          gap={gap}
-          activeCols={activeCols}
-          maxY={maxY}
-          pxPerUnit={pxPerUnit}
-        />
-      )}
-      {!!pxPerUnit && !!activeCols && (
-        <WrappedWidgetGridLayout
-          pxPerUnit={pxPerUnit}
-          gap={gap}
-          colsByBreakpoint={colsByBreakpoint}
-          minSize={minSize}
-          onDragStart={() => setIsGridVisible(true)}
-          onResizeStart={() => setIsGridVisible(true)}
-          onDragStop={() => setIsGridVisible(false)}
-          onResizeStop={() => setIsGridVisible(false)}
-          activeCols={activeCols}
-          {...restProps}
-        />
-      )}
+    <>
+      <div className='max-w-full max-h-[80vh] md:max-h-[70vh] overflow-x-hidden overflow-y-scroll px-4'>
+        <div className='w-full relative' ref={containerRef}>
+          {activeCols && (
+            <WidgetGridCells
+              isGridVisible={isGridVisible}
+              gap={gap}
+              activeCols={activeCols}
+              maxY={maxY}
+              pxPerUnit={pxPerUnit}
+            />
+          )}
+          {!!pxPerUnit && !!activeCols && (
+            <WrappedWidgetGridLayout
+              pxPerUnit={pxPerUnit}
+              gap={gap}
+              colsByBreakpoint={colsByBreakpoint}
+              minSize={minSize}
+              onDragStart={() => setIsGridVisible(true)}
+              onResizeStart={() => setIsGridVisible(true)}
+              onDragStop={() => setIsGridVisible(false)}
+              onResizeStop={() => setIsGridVisible(false)}
+              activeCols={activeCols}
+              {...restProps}
+            />
+          )}
 
-      {/* Only used to calculate cols of current breakpoint */}
-      <ReactGridLayout
-        cols={colsByBreakpoint}
-        breakpoints={WIDGET_GRID_BREAKPOINTS}
-        onBreakpointChange={(_, cols) => setActiveCols(cols)}
-      />
-    </div>
+          {/* Only used to calculate cols of current breakpoint */}
+          <ReactGridLayout
+            cols={colsByBreakpoint}
+            breakpoints={WIDGET_GRID_BREAKPOINTS}
+            onBreakpointChange={(_, cols) => setActiveCols(cols)}
+          />
+        </div>
+      </div>
+      <div className='w-full border-b border-gray-300 dark:border-gray-700 mt-4'></div>
+    </>
   );
 };

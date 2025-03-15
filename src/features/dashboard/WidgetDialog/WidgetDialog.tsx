@@ -65,7 +65,7 @@ export const WidgetDialog = ({ widget, open, onClose }: Props) => {
 
             <div className='flex flex-col gap-5'>
               <Card>
-                <h3 className='text-gray-500 font-semibold'>Widget type</h3>
+                <h3 className='text-gray-400 font-semibold'>Widget type</h3>
                 <p className='font-semibold'>{WIDGET_TYPES[widget.type]}</p>
               </Card>
 

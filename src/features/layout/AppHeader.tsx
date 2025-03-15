@@ -1,5 +1,8 @@
 import { logout } from '@/features/auth/utils';
 import { AppSidebarButton } from './AppSidebarButton';
+import { Moon, SunMedium } from 'lucide-react';
+import { AppLogo } from './AppLogo';
+import { toggleDarkMode } from '@/core/utils/dark';
 
 type Props = {
   authenticated?: boolean;
@@ -7,23 +10,29 @@ type Props = {
 
 export const AppHeader = ({ authenticated }: Props) => {
   return (
-    <header className='sticky z-50 top-0 flex items-center justify-between bg-gray-300 h-12 px-4 py-1.5'>
+    <header className='sticky z-50 top-0 flex items-center justify-between bg-gray-300 dark:bg-gray-600 h-12 px-4 py-1.5'>
       <div className='flex items-center gap-4'>
         {authenticated && <AppSidebarButton />}
         <div className='flex items-center gap-4'>
           {/* <AppSidebarButton /> */}
-          <img
-            src='https://cdn.prod.website-files.com/67518d4f9d25de09cbcd2d4f/67518d4f9d25de09cbcd2d62_opensend-logo.svg'
-            alt='logo'
-            className='h-7'
-          />
+          <AppLogo />
         </div>
       </div>
-      {authenticated && (
-        <button type='button' className='hover:underline font-medium text-lg' onClick={logout}>
-          Logout
+      <div className='flex items-center gap-4'>
+        <button
+          type='button'
+          className='flex items-center justify-center w-7 h-7 bg-gray-400/50 rounded-full'
+          onClick={toggleDarkMode}
+        >
+          <SunMedium className='dark:hidden' size={16} />
+          <Moon className='hidden dark:block' size={16} />
         </button>
-      )}
+        {authenticated && (
+          <button type='button' className='hover:underline font-medium text-lg' onClick={logout}>
+            Logout
+          </button>
+        )}
+      </div>
     </header>
   );
 };

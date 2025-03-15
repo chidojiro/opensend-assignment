@@ -1,7 +1,5 @@
 export const PageTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <h1 className='w-ful text-center text-2xl sm:text-3xl font-bold mb-4 md:mb-6 lg:mb-10'>
-      {children}
-    </h1>
+    <h1 className='w-ful text-center text-2xl md:text-3xl font-bold mb-4 md:mb-6'>{children}</h1>
   );
 };
