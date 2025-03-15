@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { WidgetGridLayout } from './WidgetGridLayout';
 import { selectLayouts, selectWidgets, setLayout } from './dashboardSlice';
+import { PageTitle } from '@/features/layout/PageTitle';
 
 export default function DashboardPage() {
   const widgets = useSelector(selectWidgets);
@@ -9,10 +10,13 @@ export default function DashboardPage() {
   const dispatch = useDispatch();
 
   return (
-    <WidgetGridLayout
-      widgets={widgets}
-      layouts={layouts}
-      onLayoutChange={(layout) => dispatch(setLayout(layout))}
-    />
+    <>
+      <PageTitle>Dashboard</PageTitle>
+      <WidgetGridLayout
+        widgets={widgets}
+        layouts={layouts}
+        onLayoutChange={(layout) => dispatch(setLayout(layout))}
+      />
+    </>
   );
 }

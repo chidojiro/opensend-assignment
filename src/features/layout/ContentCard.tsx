@@ -1,3 +1,14 @@
-export const ContentCard = ({ children }: { children: React.ReactNode }) => {
-  return <div className='w-full bg-white rounded-lg px-4 sm:px-6 py-10 shadow'>{children}</div>;
+import { classNames } from '@/core/utils/string';
+
+type Props = {
+  children: React.ReactNode;
+  className?: string;
+};
+
+export const ContentCard = ({ children, className }: Props) => {
+  return (
+    <div className={classNames('w-full bg-white rounded-lg px-6 py-10 shadow', className)}>
+      {children}
+    </div>
+  );
 };

@@ -3,7 +3,6 @@ import { Field } from '@/core/components/Field';
 import { Form } from '@/core/components/Form';
 import { Input } from '@/core/components/Input';
 import { PasswordInput } from '@/core/components/PasswordInput';
-import { AuthContent } from '@/features/layout/AuthContent';
 import { getDefaultPathname } from '@/features/routing/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, Lock, Mail } from 'lucide-react';
@@ -62,7 +61,7 @@ export default function LoginPage() {
   };
 
   return (
-    <AuthContent>
+    <>
       <div className='flex flex-col gap-4 text-center'>
         <h1 className='text-3xl font-semibold'>Welcome back!</h1>
         <p>Login to continue with Opensend</p>
@@ -108,6 +107,6 @@ export default function LoginPage() {
           </Button>
         </div>
       </Form>
-    </AuthContent>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import { ACCESS_TOKEN_KEY, CLIENT_TOKEN_KEY } from './constants';
+import { ROUTES } from '@/features/routing/constants';
 
 export const getAccessToken = () => {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -31,4 +32,11 @@ export const isAccessTokenValid = () => {
   } catch {
     return false;
   }
+};
+
+export const logout = () => {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(CLIENT_TOKEN_KEY);
+
+  window.location.href = ROUTES.LOGIN;
 };
