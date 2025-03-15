@@ -1,1 +1,1 @@
-export { WidgetGridLayout } from './WidgetGridLayout';
+export { ResponsiveWidgetGridLayout as WidgetGridLayout } from './ResponsiveWidgetGridLayout';

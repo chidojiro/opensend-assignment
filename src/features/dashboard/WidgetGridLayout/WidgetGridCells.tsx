@@ -21,8 +21,7 @@ export const WidgetGridCells = ({ isGridVisible, gap, activeCols, maxY, pxPerUni
         className='relative z-10 flex flex-wrap items-start shrink-0 w-full h-fit overflow-hidden'
         style={{ gap }}
       >
-        {/* Render some extra rows */}
-        {range(activeCols * (maxY + 2)).map((i) => (
+        {range(activeCols * maxY).map((i) => (
           <div
             key={i}
             className='bg-gray-200/40 dark:bg-gray-700/40 shrink-0'
