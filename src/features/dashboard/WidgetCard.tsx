@@ -1,14 +1,15 @@
 import { classNames } from '@/core/utils/string';
-import { Widget } from './types';
+import { Widget, WidgetLayoutBreakpoint } from './types';
 import { WidgetCardContainer } from './WidgetCardContainer';
 import { Check, X } from 'lucide-react';
 
 type Props = {
   className?: string;
   widget: Widget;
+  breakpoint: WidgetLayoutBreakpoint;
 };
 
-export const WidgetCard = ({ widget, className, ...restProps }: Props) => {
+export const WidgetCard = ({ widget, className, breakpoint, ...restProps }: Props) => {
   return (
     <>
       <WidgetCardContainer
@@ -20,7 +21,7 @@ export const WidgetCard = ({ widget, className, ...restProps }: Props) => {
         <p className='text-gray-500 text-center line-clamp-2'>{widget.description}</p>
         <div className='flex flex-col items-center justify-center mt-4'>
           <p className='text-gray-500'>
-            <b>Default:</b> {widget.defaultSize}
+            <b>Default:</b> {widget.defaultSize[breakpoint]}
           </p>
           <p className='text-gray-500 flex items-baseline gap-1'>
             <b>Preserve ratio:</b>

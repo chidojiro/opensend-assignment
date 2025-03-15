@@ -7,7 +7,7 @@ import {
   WIDGET_GRID_DEFAULT_GAP,
   WIDGET_GRID_DEFAULT_MIN_SIZE,
 } from './constants';
-import { Widget, WidgetLayout } from './types';
+import { Widget, WidgetLayout, WidgetLayoutBreakpoint } from './types';
 import { getDefaultLayout, isValidLayout } from './utils';
 import { WidgetCard } from './WidgetCard';
 import { WidgetGridCells } from './WidgetGridCells';
@@ -28,7 +28,7 @@ type WrappedProps = {
   onResizeStart?: () => void;
   onDragStop?: () => void;
   onResizeStop?: () => void;
-  activeCols: number;
+  breakpoint: WidgetLayoutBreakpoint;
 };
 
 const WrappedWidgetGridLayout = ({
@@ -43,7 +43,7 @@ const WrappedWidgetGridLayout = ({
   onResizeStart,
   onDragStop,
   onResizeStop,
-  activeCols,
+  breakpoint,
 }: WrappedProps) => {
   // Used to preserve aspect ratio when resizing
   const previousPlaceholderLayoutRef = useRef<Layout | null>(null);
@@ -52,7 +52,10 @@ const WrappedWidgetGridLayout = ({
     Object.keys(colsByBreakpoint).reduce(
       (acc, breakpoint) => ({
         ...acc,
-        [breakpoint]: getDefaultLayout(widgets, { minSize }),
+        [breakpoint]: getDefaultLayout(widgets, {
+          minSize,
+          breakpoint: breakpoint as WidgetLayoutBreakpoint,
+        }),
       }),
       {} as WidgetLayout,
     ),
@@ -85,7 +88,11 @@ const WrappedWidgetGridLayout = ({
       tempPlaceholder.w = placeholder.h * ratio;
     }
 
-    const nextPlaceholder = isValidLayout(tempPlaceholder, { ratio, minSize, cols: activeCols })
+    const nextPlaceholder = isValidLayout(tempPlaceholder, {
+      ratio,
+      minSize,
+      cols: colsByBreakpoint[breakpoint],
+    })
       ? tempPlaceholder
       : prevPlaceholder;
 
@@ -124,7 +131,7 @@ const WrappedWidgetGridLayout = ({
       >
         {widgets.map((widget) => (
           <div key={widget.id} className='rounded-xl'>
-            <WidgetCard widget={widget} />
+            <WidgetCard widget={widget} breakpoint={breakpoint} />
           </div>
         ))}
       </ReactGridLayout>
@@ -134,13 +141,7 @@ const WrappedWidgetGridLayout = ({
 
 type Props = Omit<
   WrappedProps,
-  | 'onBreakpointChange'
-  | 'pxPerUnit'
-  | 'activeCols'
-  | 'onDragStart'
-  | 'onDragStop'
-  | 'onResizeStart'
-  | 'onResizeStop'
+  'pxPerUnit' | 'breakpoint' | 'onDragStart' | 'onDragStop' | 'onResizeStart' | 'onResizeStop'
 >;
 
 export const WidgetGridLayout = ({
@@ -150,12 +151,14 @@ export const WidgetGridLayout = ({
   ...restProps
 }: Props) => {
   const [isGridVisible, setIsGridVisible] = useState(false);
-  const [activeCols, setActiveCols] = useState<number>();
+  const [breakpoint, setBreakpoint] = useState<WidgetLayoutBreakpoint>('lg');
   const [maxY, setMaxY] = useState<number>(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [pxPerUnit, setPxPerUnit] = useState<number>(0);
+
+  const activeCols = colsByBreakpoint[breakpoint];
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -197,7 +200,7 @@ export const WidgetGridLayout = ({
               pxPerUnit={pxPerUnit}
             />
           )}
-          {!!pxPerUnit && !!activeCols && (
+          {!!pxPerUnit && !!breakpoint && (
             <WrappedWidgetGridLayout
               pxPerUnit={pxPerUnit}
               gap={gap}
@@ -207,7 +210,7 @@ export const WidgetGridLayout = ({
               onResizeStart={() => setIsGridVisible(true)}
               onDragStop={() => setIsGridVisible(false)}
               onResizeStop={() => setIsGridVisible(false)}
-              activeCols={activeCols}
+              breakpoint={breakpoint}
               {...restProps}
             />
           )}
@@ -216,7 +219,7 @@ export const WidgetGridLayout = ({
           <ReactGridLayout
             cols={colsByBreakpoint}
             breakpoints={WIDGET_GRID_BREAKPOINTS}
-            onBreakpointChange={(_, cols) => setActiveCols(cols)}
+            onBreakpointChange={(breakpoint) => setBreakpoint(breakpoint as WidgetLayoutBreakpoint)}
           />
         </div>
       </div>

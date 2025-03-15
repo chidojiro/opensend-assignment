@@ -1,13 +1,16 @@
 import { Layout } from 'react-grid-layout';
-import { Widget } from './types';
+import { Widget, WidgetLayoutBreakpoint } from './types';
 
-export const getDefaultLayout = (widgets: Widget[], { minSize }: { minSize: number }) => {
+export const getDefaultLayout = (
+  widgets: Widget[],
+  { minSize, breakpoint }: { minSize: number; breakpoint: WidgetLayoutBreakpoint },
+) => {
   const layout: Layout[] = [];
 
   let currentY = 0;
 
   widgets.forEach((widget) => {
-    const [width, height] = widget.defaultSize.split('x').map(Number);
+    const [width, height] = widget.defaultSize[breakpoint].split('x').map(Number);
 
     currentY += height;
 

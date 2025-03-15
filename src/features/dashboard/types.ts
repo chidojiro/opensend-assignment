@@ -7,7 +7,7 @@ export type Widget = {
   type: 'IDENTITIES_PROVIDED' | 'ITERABLE_METRIC' | 'YOTPO_METRIC';
   value: number;
   // width x height
-  defaultSize: `${number}x${number}`;
+  defaultSize: Record<WidgetLayoutBreakpoint, `${number}x${number}`>;
   preserveAspectRatio?: boolean;
 };
 
