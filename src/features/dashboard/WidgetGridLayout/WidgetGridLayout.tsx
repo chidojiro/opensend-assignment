@@ -6,9 +6,9 @@ import {
   WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT,
   WIDGET_GRID_DEFAULT_GAP,
   WIDGET_GRID_DEFAULT_MIN_SIZE,
-} from './constants';
-import { Widget, WidgetLayout, WidgetLayoutBreakpoint } from './types';
-import { getDefaultLayout, isValidLayout } from './utils';
+} from '../constants';
+import { Widget, WidgetLayout, WidgetLayoutBreakpoint } from '../types';
+import { getDefaultLayout, isValidLayout } from '../utils';
 import { WidgetCard } from './WidgetCard';
 import { WidgetGridCells } from './WidgetGridCells';
 

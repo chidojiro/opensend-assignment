@@ -1,4 +1,5 @@
 import { Button } from '@/core/components/Button';
+import { Card } from '@/core/components/Card';
 import {
   Dialog,
   DialogBody,
@@ -6,17 +7,16 @@ import {
   DialogFooter,
   DialogHeader,
 } from '@/core/components/Dialog';
-import { Widget } from '../types';
-import { Card } from '@/core/components/Card';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@/core/components/Form';
 import { Field } from '@/core/components/Field';
+import { Form } from '@/core/components/Form';
 import { Input } from '@/core/components/Input';
 import { Textarea } from '@/core/components/Textarea';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { updateWidget } from '../dashboardSlice';
+import { z } from 'zod';
+import { Widget } from '../types';
+import { updateWidget } from '../widgetSlice';
 import { MetricValueSection } from './MetricValueSection';
 type Props = {
   open: boolean;

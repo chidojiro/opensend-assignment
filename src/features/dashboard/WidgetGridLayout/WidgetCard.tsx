@@ -1,7 +1,7 @@
 import { classNames } from '@/core/utils/string';
-import { Widget, WidgetLayoutBreakpoint } from './types';
-import { WidgetCardContainer } from './WidgetCardContainer';
 import { Check, X } from 'lucide-react';
+import { Widget, WidgetLayoutBreakpoint } from '../types';
+import { WidgetCardContainer } from './WidgetCardContainer';
 
 type Props = {
   className?: string;

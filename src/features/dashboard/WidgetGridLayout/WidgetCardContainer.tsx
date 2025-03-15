@@ -1,8 +1,8 @@
 import { classNames } from '@/core/utils/string';
-import { useRef, useState } from 'react';
 import { useProfileQuery } from '@/features/auth/rtkApis';
-import { Widget } from './types';
-import { WidgetDialog } from './WidgetDialog';
+import { useRef, useState } from 'react';
+import { Widget } from '../types';
+import { WidgetDialog } from '../WidgetDialog';
 
 type Props = {
   children: React.ReactNode;

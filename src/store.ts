@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { authApi } from './features/auth/rtkApis';
 import dashboardReducer from './features/dashboard/dashboardSlice';
+import widgetReducer from './features/dashboard/widgetSlice';
 import { storeApi } from './features/store/rtkApis';
 
 const persistConfig = {
@@ -21,6 +22,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  widgets: widgetReducer,
   dashboard: dashboardReducer,
   [authApi.reducerPath]: authApi.reducer,
   [storeApi.reducerPath]: storeApi.reducer,
