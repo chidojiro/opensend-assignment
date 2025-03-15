@@ -1,54 +1,79 @@
-# React + TypeScript + Vite
+# Dashboard Widget Grid
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A flexible and responsive dashboard grid system built with React and TypeScript. This system allows for dynamic widget layouts with features like drag-and-drop, resizing, and aspect ratio preservation.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Authentication and conditional routing
 
-## Expanding the ESLint configuration
+  - Email/password authentication
+  - Protected dashboard routes
+  - Role-based onboarding page and page access
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Dashboard
+  - Responsive grid layout that adapts to different screen sizes
+  - Resizable, draggable widgets
+  - Aspect ratio preservation during resizing
+  - Persist widgets layout between sessions
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20.x or later
+- npm 9.x or later
+
+### Installation
+
+```
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Running the development server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
 ```
+npm run dev
+```
+
+### Building the production version
+
+```
+npm run build
+```
+
+### Running the production version
+
+```
+npm run preview
+```
+
+## Folder Structure
+
+- `src/`: Contains the source code for the application.
+  - `assets/`: Contains static assets like images and icons.
+  - `features/`: Contains the main features of the application.
+    - `dashboard/`: Contains the dashboard component and its related files.
+      - `WidgetGridLayout.tsx`: The main component for the dashboard grid layout.
+      - `utils.ts`: Utility functions for the dashboard.
+      - `types.ts`: Type definitions for the dashboard.
+      - ...
+    - `auth/`: Contains the authentication component and its related files.
+      - `AuthProvider.tsx`: The main component for the authentication provider.
+      - `utils.ts`: Utility functions for the authentication.
+      - `types.ts`: Type definitions for the authentication.
+      - ...
+    - ...
+  - `core/`: Contains core functionality and shared components.
+    - `components/`: Reusable UI components.
+    - `hooks/`: Custom React hooks.
+    - `utils/`: Utility functions used across the application.
+
+## Major Libraries
+
+- `tailwindcss`: A utility-first CSS framework for rapidly building custom designs.
+- `react-grid-layout`: A library for creating a draggable and resizable grid layout.
+- `react-hook-form`: A library for building forms with React.
+- `react-redux`: A library for managing state in React applications.
+- `redux-toolkit`: A library for managing state in React applications.
+- `lucide-react`: A library for icons.
+- `@radix-ui/*`: A headless UI library for building core components.
