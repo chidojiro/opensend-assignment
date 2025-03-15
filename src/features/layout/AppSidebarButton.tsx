@@ -50,7 +50,7 @@ export const AppSidebarButton = () => {
                 onClick={handleClose}
                 className={({ isActive }) =>
                   classNames(
-                    'sm:text-xl font-medium',
+                    'text-xl font-medium',
                     isActive ? 'font-bold underline' : 'hover:underline',
                   )
                 }
