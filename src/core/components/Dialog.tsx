@@ -104,7 +104,7 @@ type DialogFooterProps = {
 export const DialogFooter = ({ className, children, ...restProps }: DialogFooterProps) => (
   <div
     className={classNames(
-      'px-4 pb-4 sm:px-8 sm:pb-8 md:px-12',
+      'px-4 py-4 sm:px-8 sm:pb-8 md:px-12',
       'flex gap-4',
       '[&>*]:flex-1',
       className,

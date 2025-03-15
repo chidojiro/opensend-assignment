@@ -1,15 +1,16 @@
 import { Maximize2 } from 'lucide-react';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { Responsive, WidthProvider } from 'react-grid-layout';
+import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
 import {
   WIDGET_GRID_BREAKPOINTS,
   WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT,
   WIDGET_GRID_DEFAULT_GAP,
   WIDGET_GRID_DEFAULT_MIN_SIZE,
-  WIDGET_GRID_DEFAULT_SIZE,
 } from './constants';
 import { Widget, WidgetLayout } from './types';
+import { getDefaultLayout, isValidLayout } from './utils';
 import { WidgetCard } from './WidgetCard';
+import { WidgetGridCells } from './WidgetGridCells';
 
 import 'react-grid-layout/css/styles.css';
 
@@ -23,22 +24,11 @@ type WrappedProps = {
   colsByBreakpoint?: typeof WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT;
   gap?: number;
   minSize?: number;
-  defaultSize?: number;
-};
-
-const getDefaultLayout = (
-  widgets: Widget[],
-  { cols, minSize, defaultSize }: { cols: number; minSize: number; defaultSize: number },
-) => {
-  return widgets.map((widget, index) => ({
-    x: (index * defaultSize) % cols,
-    y: Math.floor(index / cols) * defaultSize,
-    w: defaultSize,
-    h: defaultSize,
-    i: widget.id,
-    minW: minSize,
-    minH: minSize,
-  }));
+  onDragStart?: () => void;
+  onResizeStart?: () => void;
+  onDragStop?: () => void;
+  onResizeStop?: () => void;
+  activeCols: number;
 };
 
 const WrappedWidgetGridLayout = ({
@@ -48,45 +38,110 @@ const WrappedWidgetGridLayout = ({
   colsByBreakpoint = WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT,
   gap = WIDGET_GRID_DEFAULT_GAP,
   minSize = WIDGET_GRID_DEFAULT_MIN_SIZE,
-  defaultSize = WIDGET_GRID_DEFAULT_SIZE,
   pxPerUnit,
+  onDragStart,
+  onResizeStart,
+  onDragStop,
+  onResizeStop,
+  activeCols,
 }: WrappedProps) => {
+  // Used to preserve aspect ratio when resizing
+  const previousPlaceholderLayoutRef = useRef<Layout | null>(null);
+
   const defaultLayoutsRef = useRef<WidgetLayout>(
-    Object.fromEntries(
-      Object.entries(colsByBreakpoint).map(([breakpoint, cols]) => [
-        breakpoint,
-        getDefaultLayout(widgets, { cols, minSize, defaultSize }),
-      ]),
-    ) as WidgetLayout,
+    Object.keys(colsByBreakpoint).reduce(
+      (acc, breakpoint) => ({
+        ...acc,
+        [breakpoint]: getDefaultLayout(widgets, { minSize }),
+      }),
+      {} as WidgetLayout,
+    ),
   );
 
   const layouts = layoutsProp || defaultLayoutsRef.current;
 
+  const handleResize = (oldLayoutItem: Layout, layoutItem: Layout, placeholder: Layout) => {
+    const widget = widgets.find((w) => w.id === layoutItem.i);
+    if (!widget?.preserveAspectRatio) return;
+
+    const prevPlaceholder = previousPlaceholderLayoutRef.current;
+    const ratio = oldLayoutItem.w / oldLayoutItem.h;
+
+    if (!prevPlaceholder) {
+      previousPlaceholderLayoutRef.current = oldLayoutItem;
+      return;
+    }
+
+    const heightDiff = oldLayoutItem.h - placeholder.h;
+    const widthDiff = oldLayoutItem.w - placeholder.w;
+
+    const isResizingWidth = Math.abs(heightDiff) < Math.abs(widthDiff);
+
+    const tempPlaceholder = { ...placeholder };
+
+    if (isResizingWidth) {
+      tempPlaceholder.h = placeholder.w / ratio;
+    } else {
+      tempPlaceholder.w = placeholder.h * ratio;
+    }
+
+    const nextPlaceholder = isValidLayout(tempPlaceholder, { ratio, minSize, cols: activeCols })
+      ? tempPlaceholder
+      : prevPlaceholder;
+
+    layoutItem.w = nextPlaceholder.w;
+    layoutItem.h = nextPlaceholder.h;
+    placeholder.w = nextPlaceholder.w;
+    placeholder.h = nextPlaceholder.h;
+
+    previousPlaceholderLayoutRef.current = nextPlaceholder;
+  };
+
   return (
-    <ReactGridLayout
-      layouts={layouts}
-      onLayoutChange={(_, allLayouts) => onLayoutChange(allLayouts as WidgetLayout)}
-      rowHeight={pxPerUnit}
-      cols={colsByBreakpoint}
-      margin={[gap, gap]}
-      breakpoints={WIDGET_GRID_BREAKPOINTS}
-      resizeHandle={
-        <div className='react-resizable-handle absolute bottom-0 right-0 z-10 rotate-90 flex items-center justify-center'>
-          <Maximize2 size={10} />
-        </div>
-      }
-      containerPadding={[0, 0]}
-    >
-      {widgets.map((widget) => (
-        <div key={widget.id} className='rounded-xl'>
-          <WidgetCard widget={widget} />
-        </div>
-      ))}
-    </ReactGridLayout>
+    <>
+      <ReactGridLayout
+        layouts={layouts}
+        onLayoutChange={(_, allLayouts) => {
+          onLayoutChange(allLayouts as WidgetLayout);
+        }}
+        onDragStart={onDragStart}
+        onDragStop={onDragStop}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+        onResize={(_, oldLayoutItem, layoutItem, placeholder) => {
+          handleResize(oldLayoutItem, layoutItem, placeholder);
+        }}
+        rowHeight={pxPerUnit}
+        cols={colsByBreakpoint}
+        margin={[gap, gap]}
+        breakpoints={WIDGET_GRID_BREAKPOINTS}
+        resizeHandle={
+          <div className='react-resizable-handle absolute bottom-0 right-0 z-10 rotate-90 flex items-center justify-center'>
+            <Maximize2 size={10} />
+          </div>
+        }
+        containerPadding={[0, 0]}
+      >
+        {widgets.map((widget) => (
+          <div key={widget.id} className='rounded-xl'>
+            <WidgetCard widget={widget} />
+          </div>
+        ))}
+      </ReactGridLayout>
+    </>
   );
 };
 
-type Props = Omit<WrappedProps, 'onBreakpointChange' | 'pxPerUnit'>;
+type Props = Omit<
+  WrappedProps,
+  | 'onBreakpointChange'
+  | 'pxPerUnit'
+  | 'activeCols'
+  | 'onDragStart'
+  | 'onDragStop'
+  | 'onResizeStart'
+  | 'onResizeStop'
+>;
 
 export const WidgetGridLayout = ({
   gap = WIDGET_GRID_DEFAULT_GAP,
@@ -94,42 +149,63 @@ export const WidgetGridLayout = ({
   minSize = WIDGET_GRID_DEFAULT_MIN_SIZE,
   ...restProps
 }: Props) => {
+  const [isGridVisible, setIsGridVisible] = useState(false);
   const [activeCols, setActiveCols] = useState<number>();
+  const [maxY, setMaxY] = useState<number>(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [size, setSize] = useState<number>(0);
+  const [pxPerUnit, setPxPerUnit] = useState<number>(0);
 
   useLayoutEffect(() => {
-    const doCalculateSize = () => {
-      if (containerRef.current && activeCols) {
-        const width = containerRef.current.clientWidth;
+    const container = containerRef.current;
 
+    if (!container) return;
+
+    const doCalculateSizes = () => {
+      if (activeCols) {
+        const width = container.clientWidth;
         const totalGap = (activeCols - 1) * gap;
-
-        const size = (width - totalGap) / activeCols;
-
-        setSize(size);
+        const pxPerUnit = (width - totalGap) / activeCols;
+        setPxPerUnit(pxPerUnit);
+        setMaxY(Math.ceil((container.clientHeight || 0) / (pxPerUnit + gap)));
       }
     };
 
-    doCalculateSize();
+    const resizeObserver = new ResizeObserver(() => {
+      doCalculateSizes();
+    });
 
-    window.addEventListener('resize', doCalculateSize);
+    resizeObserver.observe(container);
+    doCalculateSizes();
 
     return () => {
-      window.removeEventListener('resize', doCalculateSize);
+      resizeObserver.disconnect();
     };
   }, [colsByBreakpoint, gap, activeCols]);
 
   return (
-    <div ref={containerRef}>
-      {!!size && (
+    <div className='relative max-w-full overflow-hidden' ref={containerRef}>
+      {activeCols && (
+        <WidgetGridCells
+          isGridVisible={isGridVisible}
+          gap={gap}
+          activeCols={activeCols}
+          maxY={maxY}
+          pxPerUnit={pxPerUnit}
+        />
+      )}
+      {!!pxPerUnit && !!activeCols && (
         <WrappedWidgetGridLayout
-          pxPerUnit={size}
+          pxPerUnit={pxPerUnit}
           gap={gap}
           colsByBreakpoint={colsByBreakpoint}
           minSize={minSize}
+          onDragStart={() => setIsGridVisible(true)}
+          onResizeStart={() => setIsGridVisible(true)}
+          onDragStop={() => setIsGridVisible(false)}
+          onResizeStop={() => setIsGridVisible(false)}
+          activeCols={activeCols}
           {...restProps}
         />
       )}

@@ -9,6 +9,8 @@ const MOCK_WIDGETS: Widget[] = [
     description: 'New identities provided during the selected time period.',
     type: 'IDENTITIES_PROVIDED',
     value: 0,
+    defaultSize: '12x4',
+    preserveAspectRatio: true,
   },
   {
     id: '2',
@@ -17,6 +19,7 @@ const MOCK_WIDGETS: Widget[] = [
       'Number of provided identities who clicked on emails for the selected time period.',
     type: 'ITERABLE_METRIC',
     value: 0,
+    defaultSize: '4x2',
   },
   {
     id: '3',
@@ -24,6 +27,8 @@ const MOCK_WIDGETS: Widget[] = [
     description: 'Number of provided identities who opened emails during the selected time period.',
     type: 'YOTPO_METRIC',
     value: 0,
+    defaultSize: '3x3',
+    preserveAspectRatio: true,
   },
 ];
 

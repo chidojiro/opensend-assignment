@@ -2,14 +2,12 @@ export const WIDGET_GRID_BREAKPOINTS = { lg: 1280, md: 1024, sm: 768, xs: 480, x
 
 export const WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT = {
   lg: 12,
-  md: 8,
+  md: 12,
   sm: 8,
   xs: 4,
-  xxs: 4,
+  xxs: 2,
 } as const;
 
 export const WIDGET_GRID_DEFAULT_GAP = 10;
 
 export const WIDGET_GRID_DEFAULT_MIN_SIZE = 2;
-
-export const WIDGET_GRID_DEFAULT_SIZE = 4;

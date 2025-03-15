@@ -10,23 +10,25 @@ type Props = {
   widget: Widget;
 };
 
-export const WidgetCardContainer = ({ children, className, widget }: Props) => {
+export const WidgetCardContainer = ({ children, className, widget, ...restProps }: Props) => {
   const { data: profile } = useProfileQuery();
   const isAdmin = profile?.view.type === 'ADMIN';
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mouseDownTimeRef = useRef<number>(0);
 
   const handleClickTrackStart = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsDialogOpen(true);
-    }, 50);
+    mouseDownTimeRef.current = Date.now();
   };
 
-  const handleInvalidateClick = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+  const handleMouseUp = () => {
+    if (mouseDownTimeRef.current) {
+      const time = Date.now() - mouseDownTimeRef.current;
+
+      if (time < 150) {
+        setIsDialogOpen(true);
+      }
     }
   };
 
@@ -43,11 +45,13 @@ export const WidgetCardContainer = ({ children, className, widget }: Props) => {
           type='button'
           className={containerClassName}
           // HACK: onClick won't work normally when the widget is inside grid layout
-          // so we need to use mouse events and timeout to manually detect a click
+          // It is also triggered when the widget is dropped
+          // so we need to track time between mouse down and mouse up to detect a click
           onMouseDown={handleClickTrackStart}
           onTouchStart={handleClickTrackStart}
-          onMouseMove={handleInvalidateClick}
-          onTouchMove={handleInvalidateClick}
+          onMouseUp={handleMouseUp}
+          onTouchEnd={handleMouseUp}
+          {...restProps}
         >
           {children}
         </button>
@@ -55,5 +59,9 @@ export const WidgetCardContainer = ({ children, className, widget }: Props) => {
     );
   }
 
-  return <div className={containerClassName}>{children}</div>;
+  return (
+    <div className={containerClassName} {...restProps}>
+      {children}
+    </div>
+  );
 };
