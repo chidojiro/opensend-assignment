@@ -1,5 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { authApi } from './features/auth/rtkApis';
 import dashboardReducer from './features/dashboard/dashboardSlice';
@@ -8,7 +17,7 @@ import { storeApi } from './features/store/rtkApis';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['dashboard']
+  whitelist: ['dashboard'],
 };
 
 const rootReducer = combineReducers({

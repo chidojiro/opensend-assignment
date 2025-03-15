@@ -1,64 +1,81 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import RGL, { Layout, WidthProvider } from 'react-grid-layout';
-import { Widget } from './types';
-import { WidgetCard } from './WidgetCard';
 import { Maximize2 } from 'lucide-react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+import {
+  WIDGET_GRID_BREAKPOINTS,
+  WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT,
+  WIDGET_GRID_DEFAULT_GAP,
+  WIDGET_GRID_DEFAULT_MIN_SIZE,
+  WIDGET_GRID_DEFAULT_SIZE,
+} from './constants';
+import { Widget, WidgetLayout } from './types';
+import { WidgetCard } from './WidgetCard';
 
 import 'react-grid-layout/css/styles.css';
 
-const ReactGridLayout = WidthProvider(RGL);
+const ReactGridLayout = WidthProvider(Responsive);
 
-const DEFAULT_COLS = 12;
-const DEFAULT_GAP = 10;
-const DEFAULT_MIN_SIZE = 2;
-const DEFAULT_SIZE = 4;
-
-type Props = {
+type WrappedProps = {
   widgets: Widget[];
-  layout: Layout[];
-  onLayoutChange: (layout: Layout[]) => void;
-  cols?: number;
+  onLayoutChange: (layouts: WidgetLayout) => void;
+  pxPerUnit: number;
+  layouts?: WidgetLayout;
+  colsByBreakpoint?: typeof WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT;
   gap?: number;
   minSize?: number;
   defaultSize?: number;
 };
 
+const getDefaultLayout = (
+  widgets: Widget[],
+  { cols, minSize, defaultSize }: { cols: number; minSize: number; defaultSize: number },
+) => {
+  return widgets.map((widget, index) => ({
+    x: (index * defaultSize) % cols,
+    y: Math.floor(index / cols) * defaultSize,
+    w: defaultSize,
+    h: defaultSize,
+    i: widget.id,
+    minW: minSize,
+    minH: minSize,
+  }));
+};
+
 const WrappedWidgetGridLayout = ({
   widgets,
-  layout: layoutProp,
-  onLayoutChange = () => {},
-  cols = DEFAULT_COLS,
-  gap = DEFAULT_GAP,
-  minSize = DEFAULT_MIN_SIZE,
-  defaultSize = DEFAULT_SIZE,
+  layouts: layoutsProp,
+  onLayoutChange,
+  colsByBreakpoint = WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT,
+  gap = WIDGET_GRID_DEFAULT_GAP,
+  minSize = WIDGET_GRID_DEFAULT_MIN_SIZE,
+  defaultSize = WIDGET_GRID_DEFAULT_SIZE,
   pxPerUnit,
-}: Props & { pxPerUnit: number }) => {
-  const defaultLayoutRef = useRef<Layout[]>(
-    widgets.map((widget, index) => ({
-      x: (index * defaultSize) % cols,
-      y: Math.floor(index / cols) * pxPerUnit,
-      w: defaultSize,
-      h: defaultSize,
-      i: widget.id,
-      minW: minSize,
-      minH: minSize,
-    })),
+}: WrappedProps) => {
+  const defaultLayoutsRef = useRef<WidgetLayout>(
+    Object.fromEntries(
+      Object.entries(colsByBreakpoint).map(([breakpoint, cols]) => [
+        breakpoint,
+        getDefaultLayout(widgets, { cols, minSize, defaultSize }),
+      ]),
+    ) as WidgetLayout,
   );
 
-  const layout = layoutProp?.length ? layoutProp : defaultLayoutRef.current;
+  const layouts = layoutsProp || defaultLayoutsRef.current;
 
   return (
     <ReactGridLayout
-      layout={layout}
-      onLayoutChange={onLayoutChange}
+      layouts={layouts}
+      onLayoutChange={(_, allLayouts) => onLayoutChange(allLayouts as WidgetLayout)}
       rowHeight={pxPerUnit}
-      cols={cols}
+      cols={colsByBreakpoint}
       margin={[gap, gap]}
+      breakpoints={WIDGET_GRID_BREAKPOINTS}
       resizeHandle={
         <div className='react-resizable-handle absolute bottom-0 right-0 z-10 rotate-90 flex items-center justify-center'>
           <Maximize2 size={10} />
         </div>
       }
+      containerPadding={[0, 0]}
     >
       {widgets.map((widget) => (
         <div key={widget.id} className='rounded-xl'>
@@ -69,25 +86,28 @@ const WrappedWidgetGridLayout = ({
   );
 };
 
+type Props = Omit<WrappedProps, 'onBreakpointChange' | 'pxPerUnit'>;
+
 export const WidgetGridLayout = ({
-  gap = DEFAULT_GAP,
-  cols = DEFAULT_COLS,
-  minSize = DEFAULT_MIN_SIZE,
+  gap = WIDGET_GRID_DEFAULT_GAP,
+  colsByBreakpoint = WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT,
+  minSize = WIDGET_GRID_DEFAULT_MIN_SIZE,
   ...restProps
 }: Props) => {
+  const [activeCols, setActiveCols] = useState<number>();
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [size, setSize] = useState<number>();
+  const [size, setSize] = useState<number>(0);
 
   useLayoutEffect(() => {
     const doCalculateSize = () => {
-      if (containerRef.current) {
+      if (containerRef.current && activeCols) {
         const width = containerRef.current.clientWidth;
 
-        const totalMarginX = gap * 2;
-        const totalGap = (cols - 1) * gap;
+        const totalGap = (activeCols - 1) * gap;
 
-        const size = (width - totalGap - totalMarginX) / cols;
+        const size = (width - totalGap) / activeCols;
 
         setSize(size);
       }
@@ -100,7 +120,7 @@ export const WidgetGridLayout = ({
     return () => {
       window.removeEventListener('resize', doCalculateSize);
     };
-  }, [cols, gap]);
+  }, [colsByBreakpoint, gap, activeCols]);
 
   return (
     <div ref={containerRef}>
@@ -108,11 +128,18 @@ export const WidgetGridLayout = ({
         <WrappedWidgetGridLayout
           pxPerUnit={size}
           gap={gap}
-          cols={cols}
+          colsByBreakpoint={colsByBreakpoint}
           minSize={minSize}
           {...restProps}
         />
       )}
+
+      {/* Only used to calculate cols of current breakpoint */}
+      <ReactGridLayout
+        cols={colsByBreakpoint}
+        breakpoints={WIDGET_GRID_BREAKPOINTS}
+        onBreakpointChange={(_, cols) => setActiveCols(cols)}
+      />
     </div>
   );
 };
