@@ -14,7 +14,10 @@
     />
     <title>Opensend</title>
     <script>
-      const theme = localStorage.getItem('theme');
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : undefined;
+      const theme = localStorage.getItem('theme') || systemTheme;
 
       if (theme === 'dark') {
         document.documentElement.dataset.theme = 'dark';
