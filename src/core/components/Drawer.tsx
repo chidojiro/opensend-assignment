@@ -51,7 +51,7 @@ const DrawerContent = forwardRef<
           'py-5 px-4',
           'bg-gray-100 dark:bg-gray-700',
           'overflow-y-auto',
-          'border-r border-gray-300 dark:border-gray-700',
+          'border-r border-gray-300 dark:border-gray-600',
           'flex flex-col',
           className,
         )}

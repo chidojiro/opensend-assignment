@@ -30,7 +30,7 @@ export const DialogContent = forwardRef<
         [
           'fixed z-50 left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]',
           'w-[1024px] max-w-[calc(100%-2rem)]',
-          'border border-gray-300 shadow-lg rounded-xl',
+          'border border-gray-300 dark:border-gray-600 shadow-lg rounded-xl',
           'bg-gray-100 dark:bg-gray-700',
           'duration-200',
           'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
