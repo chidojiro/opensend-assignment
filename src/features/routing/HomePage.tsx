@@ -1,4 +1,4 @@
-import { isAccessTokenValid } from '@/features/auth/utils';
+import { isAccessTokenValid, logout } from '@/features/auth/utils';
 import { Navigate } from 'react-router';
 import { ROUTES } from './constants';
 import { useProfileQuery } from '@/features/auth/rtkApis';
@@ -15,9 +15,12 @@ export default function HomePage() {
     (async () => {
       if (!data) return;
 
-      const pathname = await getDefaultPathname(data.view);
-
-      setDefaultPathname(pathname);
+      try {
+        const pathname = await getDefaultPathname(data.view);
+        setDefaultPathname(pathname);
+      } catch {
+        logout();
+      }
     })();
   }, [data]);
 
