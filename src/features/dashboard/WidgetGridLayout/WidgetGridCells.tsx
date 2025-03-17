@@ -9,6 +9,8 @@ type Props = {
   pxPerUnit: number;
 };
 
+const EXTRA_ROWS = 2;
+
 export const WidgetGridCells = ({ isGridVisible, gap, activeCols, maxY, pxPerUnit }: Props) => {
   return (
     <div
@@ -21,7 +23,7 @@ export const WidgetGridCells = ({ isGridVisible, gap, activeCols, maxY, pxPerUni
         className='relative z-10 flex flex-wrap items-start shrink-0 w-full h-fit overflow-hidden'
         style={{ gap }}
       >
-        {range(activeCols * maxY).map((i) => (
+        {range(activeCols * (maxY + EXTRA_ROWS)).map((i) => (
           <div
             key={i}
             className='bg-gray-200/40 dark:bg-gray-700/40 shrink-0'

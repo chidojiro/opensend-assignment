@@ -2,7 +2,7 @@ import { logout } from '@/features/auth/utils';
 import { AppSidebarButton } from './AppSidebarButton';
 import { Moon, SunMedium } from 'lucide-react';
 import { AppLogo } from './AppLogo';
-import { toggleDarkMode } from '@/core/utils/dark';
+import { toggleDarkMode } from '@/core/utils/theme';
 import { Link } from 'react-router';
 import { ROUTES } from '@/features/routing/constants';
 

@@ -15,7 +15,7 @@ export const getLocalStorage = (key: string, parse?: boolean) => {
     const value = localStorage.getItem(key);
 
     if (!parse) return value;
-    
+
     return value ? JSON.parse(value) : null;
   } catch (error) {
     console.warn(`Error getting localStorage key "${key}":`, error);
