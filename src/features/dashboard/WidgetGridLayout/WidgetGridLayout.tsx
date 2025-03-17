@@ -8,7 +8,7 @@ import {
   WIDGET_GRID_DEFAULT_MIN_SIZE,
 } from '../constants';
 import { Widget, WidgetLayout, WidgetLayoutBreakpoint } from '../types';
-import { isValidLayout } from '../utils';
+import { getMinSize, isValidLayout } from '../utils';
 import { WidgetCard } from './WidgetCard';
 
 import 'react-grid-layout/css/styles.css';
@@ -60,7 +60,14 @@ export const WidgetGridLayout = ({
       return;
     }
 
-    const isWidthResizeHeavier = placeholder.w / placeholder.h > ratio;
+    const { w: minW, h: minH } = getMinSize({
+      w: oldLayoutItem.w,
+      h: oldLayoutItem.h,
+      minSize,
+    });
+    const heightDiff = placeholder.h - minH;
+    const widthDiff = placeholder.w - minW;
+    const isWidthResizeHeavier = Math.abs(widthDiff) > Math.abs(heightDiff);
 
     const tempPlaceholder = { ...placeholder };
 
