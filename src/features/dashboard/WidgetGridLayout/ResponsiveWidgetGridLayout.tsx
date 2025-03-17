@@ -69,16 +69,14 @@ export const ResponsiveWidgetGridLayout = ({
   return (
     <div className='flex-1 px-4'>
       <div className='w-full relative' ref={containerRef}>
-        {activeCols && (
-          <WidgetGridCells
-            isGridVisible={isGridVisible}
-            gap={gap}
-            activeCols={activeCols}
-            maxY={maxY}
-            pxPerUnit={pxPerUnit}
-          />
-        )}
-        {!!pxPerUnit && !!breakpoint && (
+        <WidgetGridCells
+          isGridVisible={isGridVisible}
+          gap={gap}
+          activeCols={activeCols}
+          maxY={maxY}
+          pxPerUnit={pxPerUnit}
+        />
+        {!!pxPerUnit && (
           <WidgetGridLayout
             pxPerUnit={pxPerUnit}
             gap={gap}
