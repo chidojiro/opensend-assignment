@@ -4,6 +4,7 @@ import { AppLogo } from './AppLogo';
 import { ContentCard } from './ContentCard';
 import { AppLoading } from './AppLoading';
 import { useLocation } from 'react-router';
+import { AppContent } from './AppContent';
 
 type Props = {
   children: React.ReactNode;
@@ -15,12 +16,14 @@ export const AuthLayout = ({ children }: Props) => {
   return (
     <>
       <AppHeader />
-      <Suspense key={location.key} fallback={<AppLoading />}>
-        <div className='flex-1 w-full px-4 max-w-lg mx-auto mt-20 flex flex-col items-center gap-4'>
-          <AppLogo />
-          <ContentCard>{children}</ContentCard>
-        </div>
-      </Suspense>
+      <AppContent>
+        <Suspense key={location.key} fallback={<AppLoading />}>
+          <div className='max-w-lg flex flex-col items-center gap-4 mx-auto'>
+            <AppLogo />
+            <ContentCard>{children}</ContentCard>
+          </div>
+        </Suspense>
+      </AppContent>
     </>
   );
 };

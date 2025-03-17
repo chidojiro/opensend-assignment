@@ -11,12 +11,12 @@ type Props = {
 export const AuthorizedOutlet = ({ authorizedTypes }: Props) => {
   const { data: profile, isFetching } = useProfileQuery(undefined);
 
-  if (!profile) {
-    return <Navigate to={ROUTES.LOGIN} />;
-  }
-
   if (isFetching) {
     return <AppLoading />;
+  }
+
+  if (!profile) {
+    return <Navigate to={ROUTES.LOGIN} />;
   }
 
   if (!authorizedTypes.includes(profile.view.type)) {
