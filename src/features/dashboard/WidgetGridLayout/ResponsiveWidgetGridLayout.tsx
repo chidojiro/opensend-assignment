@@ -9,7 +9,6 @@ import { WidgetLayoutBreakpoint } from '../types';
 import { WidgetGridCells } from './WidgetGridCells';
 import { WidgetGridLayout } from './WidgetGridLayout';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { Separator } from '@/core/components/Separator';
 
 const ReactGridLayout = WidthProvider(Responsive);
 
@@ -68,43 +67,39 @@ export const ResponsiveWidgetGridLayout = ({
   }, [colsByBreakpoint, gap, activeCols]);
 
   return (
-    <>
-      <Separator className='mb-6' />
-      <div className='max-w-full max-h-[80vh] md:max-h-[70vh] overflow-x-hidden overflow-y-scroll px-4'>
-        <div className='w-full relative' ref={containerRef}>
-          {activeCols && (
-            <WidgetGridCells
-              isGridVisible={isGridVisible}
-              gap={gap}
-              activeCols={activeCols}
-              maxY={maxY}
-              pxPerUnit={pxPerUnit}
-            />
-          )}
-          {!!pxPerUnit && !!breakpoint && (
-            <WidgetGridLayout
-              pxPerUnit={pxPerUnit}
-              gap={gap}
-              colsByBreakpoint={colsByBreakpoint}
-              minSize={minSize}
-              onDragStart={() => setIsGridVisible(true)}
-              onResizeStart={() => setIsGridVisible(true)}
-              onDragStop={() => setIsGridVisible(false)}
-              onResizeStop={() => setIsGridVisible(false)}
-              breakpoint={breakpoint}
-              {...restProps}
-            />
-          )}
-
-          {/* Only used to get breakpoint w */}
-          <ReactGridLayout
-            cols={colsByBreakpoint}
-            breakpoints={WIDGET_GRID_BREAKPOINTS}
-            onBreakpointChange={(breakpoint) => setBreakpoint(breakpoint as WidgetLayoutBreakpoint)}
+    <div className='flex-1 px-4'>
+      <div className='w-full relative' ref={containerRef}>
+        {activeCols && (
+          <WidgetGridCells
+            isGridVisible={isGridVisible}
+            gap={gap}
+            activeCols={activeCols}
+            maxY={maxY}
+            pxPerUnit={pxPerUnit}
           />
-        </div>
+        )}
+        {!!pxPerUnit && !!breakpoint && (
+          <WidgetGridLayout
+            pxPerUnit={pxPerUnit}
+            gap={gap}
+            colsByBreakpoint={colsByBreakpoint}
+            minSize={minSize}
+            onDragStart={() => setIsGridVisible(true)}
+            onResizeStart={() => setIsGridVisible(true)}
+            onDragStop={() => setIsGridVisible(false)}
+            onResizeStop={() => setIsGridVisible(false)}
+            breakpoint={breakpoint}
+            {...restProps}
+          />
+        )}
+
+        {/* Only used to get breakpoint w */}
+        <ReactGridLayout
+          cols={colsByBreakpoint}
+          breakpoints={WIDGET_GRID_BREAKPOINTS}
+          onBreakpointChange={(breakpoint) => setBreakpoint(breakpoint as WidgetLayoutBreakpoint)}
+        />
       </div>
-      <Separator className='mt-6' />
-    </>
+    </div>
   );
 };

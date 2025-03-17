@@ -5,7 +5,7 @@ export const WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT = {
   md: 12,
   sm: 8,
   xs: 4,
-  xxs: 2,
+  xxs: 4,
 } as const;
 
 export const WIDGET_GRID_DEFAULT_GAP = 10;
