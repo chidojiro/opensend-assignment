@@ -40,12 +40,12 @@ const DrawerContent = forwardRef<
   return (
     <DrawerPrimitive.Portal>
       <DrawerPrimitive.Overlay
-        className={classNames('fixed inset-0 z-40 bg-black/20', className)}
+        className={classNames('fixed inset-0 z-drawer bg-black/20', className)}
       />
       <DrawerPrimitive.Content
         ref={ref}
         className={classNames(
-          'fixed z-40 left-0',
+          'fixed z-drawer left-0',
           'top-header',
           'w-96 max-w-[85vw] h-[calc(100vh-48px)]',
           'py-5 px-4',

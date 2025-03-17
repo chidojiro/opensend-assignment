@@ -52,22 +52,19 @@ export const WidgetGridLayout = ({
     const widget = widgets.find((w) => w.id === layoutItem.i);
     if (!widget?.preserveAspectRatio) return;
 
-    const prevPlaceholder = previousPlaceholderLayoutRef.current;
+    const previousPlaceholder = previousPlaceholderLayoutRef.current;
     const ratio = oldLayoutItem.w / oldLayoutItem.h;
 
-    if (!prevPlaceholder) {
+    if (!previousPlaceholder) {
       previousPlaceholderLayoutRef.current = oldLayoutItem;
       return;
     }
 
-    const heightDiff = oldLayoutItem.h - placeholder.h;
-    const widthDiff = oldLayoutItem.w - placeholder.w;
-
-    const isResizingWidth = Math.abs(heightDiff) < Math.abs(widthDiff);
+    const isWidthResizeHeavier = placeholder.w / placeholder.h > ratio;
 
     const tempPlaceholder = { ...placeholder };
 
-    if (isResizingWidth) {
+    if (isWidthResizeHeavier) {
       tempPlaceholder.h = placeholder.w / ratio;
     } else {
       tempPlaceholder.w = placeholder.h * ratio;
@@ -79,7 +76,7 @@ export const WidgetGridLayout = ({
       cols: colsByBreakpoint[breakpoint],
     })
       ? tempPlaceholder
-      : prevPlaceholder;
+      : previousPlaceholder;
 
     layoutItem.w = nextPlaceholder.w;
     layoutItem.h = nextPlaceholder.h;

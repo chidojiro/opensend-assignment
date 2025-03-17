@@ -12,7 +12,7 @@ type Props = {
 
 export const AppHeader = ({ authenticated }: Props) => {
   return (
-    <header className='sticky z-50 top-0 flex items-center justify-between bg-gray-300 dark:bg-gray-600 h-12 px-4 py-1.5'>
+    <header className='sticky z-header top-0 flex items-center justify-between bg-gray-300 h-12 px-4 py-1.5'>
       <div className='flex items-center'>
         {authenticated && <AppSidebarButton />}
         <Link to={ROUTES.HOME}>

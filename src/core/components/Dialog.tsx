@@ -15,7 +15,7 @@ export const DialogContent = forwardRef<
   <DialogPrimitive.Portal>
     <DialogPrimitive.Overlay
       className={classNames(
-        'fixed z-50 inset-0',
+        'fixed z-dialog inset-0',
         'bg-black/20',
         'data-[state=open]:animate-in data-[state=open]:fade-in-0',
         'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',
@@ -28,7 +28,7 @@ export const DialogContent = forwardRef<
       ref={ref}
       className={classNames(
         [
-          'fixed z-50 left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]',
+          'fixed z-dialog left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]',
           'w-[1024px] max-w-[calc(100%-2rem)]',
           'border border-gray-300 dark:border-gray-600 shadow-lg rounded-xl',
           'bg-gray-100 dark:bg-gray-700',
