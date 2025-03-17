@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WidgetLayout } from './types';
 import type { RootState } from '@/store';
+import defaultLayouts from './defaultLayouts.json';
 
 interface DashboardState {
-  layouts?: WidgetLayout;
+  layouts: WidgetLayout;
 }
 
 const initialState: DashboardState = {
-  layouts: undefined,
+  layouts: defaultLayouts,
 };
 
 const dashboardSlice = createSlice({

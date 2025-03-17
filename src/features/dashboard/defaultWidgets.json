@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1",
+    "title": "Identities Provided",
+    "description": "New identities provided during the selected time period.",
+    "type": "IDENTITIES_PROVIDED",
+    "value": 0,
+    "preserveAspectRatio": true
+  },
+  {
+    "id": "2",
+    "title": "Clicked",
+    "description": "Number of provided identities who clicked on emails for the selected time period.",
+    "type": "ITERABLE_METRIC",
+    "value": 0
+  },
+  {
+    "id": "3",
+    "title": "Opened message",
+    "description": "Number of provided identities who opened emails during the selected time period.",
+    "type": "YOTPO_METRIC",
+    "value": 0,
+    "preserveAspectRatio": true
+  }
+]

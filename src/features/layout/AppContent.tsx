@@ -10,13 +10,12 @@ export const AppContent = ({ children, className }: Props) => {
     <div
       className={classNames(
         'max-h-[calc(100vh-var(--spacing-header))] w-full h-full flex-1',
-        'overflow-y-auto',
-        'flex flex-col',
+        'overflow-y-scroll',
         'px-4 md:px-6 lg:px-10 py-10 lg:py-20',
         className,
       )}
     >
-      {children}
+      <div className='max-w-7xl mx-auto'>{children}</div>
     </div>
   );
 };

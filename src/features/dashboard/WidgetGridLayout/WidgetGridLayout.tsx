@@ -8,7 +8,7 @@ import {
   WIDGET_GRID_DEFAULT_MIN_SIZE,
 } from '../constants';
 import { Widget, WidgetLayout, WidgetLayoutBreakpoint } from '../types';
-import { getDefaultLayout, isValidLayout } from '../utils';
+import { isValidLayout } from '../utils';
 import { WidgetCard } from './WidgetCard';
 
 import 'react-grid-layout/css/styles.css';
@@ -19,7 +19,7 @@ type Props = {
   widgets: Widget[];
   onLayoutChange: (layouts: WidgetLayout) => void;
   pxPerUnit: number;
-  layouts?: WidgetLayout;
+  layouts: WidgetLayout;
   colsByBreakpoint?: typeof WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT;
   gap?: number;
   minSize?: number;
@@ -33,7 +33,7 @@ type Props = {
 
 export const WidgetGridLayout = ({
   widgets,
-  layouts: layoutsProp,
+  layouts,
   onLayoutChange,
   colsByBreakpoint = WIDGET_GRID_DEFAULT_COLS_BY_BREAKPOINT,
   gap = WIDGET_GRID_DEFAULT_GAP,
@@ -47,21 +47,6 @@ export const WidgetGridLayout = ({
 }: Props) => {
   // Used to preserve aspect ratio when resizing
   const previousPlaceholderLayoutRef = useRef<Layout | null>(null);
-
-  const defaultLayoutsRef = useRef<WidgetLayout>(
-    Object.keys(colsByBreakpoint).reduce(
-      (acc, breakpoint) => ({
-        ...acc,
-        [breakpoint]: getDefaultLayout(widgets, {
-          minSize,
-          breakpoint: breakpoint as WidgetLayoutBreakpoint,
-        }),
-      }),
-      {} as WidgetLayout,
-    ),
-  );
-
-  const layouts = layoutsProp || defaultLayoutsRef.current;
 
   const handleResize = (oldLayoutItem: Layout, layoutItem: Layout, placeholder: Layout) => {
     const widget = widgets.find((w) => w.id === layoutItem.i);
@@ -131,7 +116,7 @@ export const WidgetGridLayout = ({
       >
         {widgets.map((widget) => (
           <div key={widget.id} className='rounded-xl'>
-            <WidgetCard widget={widget} breakpoint={breakpoint} />
+            <WidgetCard widget={widget} />
           </div>
         ))}
       </ReactGridLayout>
