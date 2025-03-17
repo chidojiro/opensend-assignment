@@ -1,13 +1,16 @@
 import { getLocalStorage, setLocalStorage } from './localStorage';
+import { LOCAL_STORAGE_THEME_KEY } from '@/core/constants/theme';
 
 export const toggleDarkMode = () => {
-  const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  document.documentElement.classList.toggle(currentTheme);
 
-  document.documentElement.dataset.theme = nextTheme;
+  const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.classList.add(nextTheme);
 
-  setLocalStorage('theme', nextTheme);
+  setLocalStorage(LOCAL_STORAGE_THEME_KEY, nextTheme);
 };
 
 export const getLocalStorageTheme = () => {
-  return getLocalStorage('theme');
+  return getLocalStorage(LOCAL_STORAGE_THEME_KEY);
 };

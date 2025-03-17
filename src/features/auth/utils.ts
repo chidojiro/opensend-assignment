@@ -1,22 +1,23 @@
-import { jwtDecode } from 'jwt-decode';
-import { ACCESS_TOKEN_KEY, CLIENT_TOKEN_KEY } from './constants';
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from '@/core/utils/localStorage';
+import { LOCAL_STORAGE_REDUX_PERSIST_KEY } from '@/features/redux/constants';
 import { ROUTES } from '@/features/routing/constants';
-import { getLocalStorage, setLocalStorage, clearLocalStorage } from '@/core/utils/localStorage';
+import { jwtDecode } from 'jwt-decode';
+import { LOCAL_STORAGE_ACCESS_TOKEN_KEY, LOCAL_STORAGE_CLIENT_TOKEN_KEY } from './constants';
 
 export const getAccessToken = () => {
-  return getLocalStorage(ACCESS_TOKEN_KEY);
+  return getLocalStorage(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
 };
 
 export const getClientToken = () => {
-  return getLocalStorage(CLIENT_TOKEN_KEY);
+  return getLocalStorage(LOCAL_STORAGE_CLIENT_TOKEN_KEY);
 };
 
 export const setAccessToken = (token: string) => {
-  setLocalStorage(ACCESS_TOKEN_KEY, token);
+  setLocalStorage(LOCAL_STORAGE_ACCESS_TOKEN_KEY, token);
 };
 
 export const setClientToken = (token: string) => {
-  setLocalStorage(CLIENT_TOKEN_KEY, token);
+  setLocalStorage(LOCAL_STORAGE_CLIENT_TOKEN_KEY, token);
 };
 
 export const isAccessTokenValid = () => {
@@ -36,7 +37,9 @@ export const isAccessTokenValid = () => {
 };
 
 export const logout = () => {
-  clearLocalStorage();
+  removeLocalStorage(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
+  removeLocalStorage(LOCAL_STORAGE_CLIENT_TOKEN_KEY);
+  removeLocalStorage(LOCAL_STORAGE_REDUX_PERSIST_KEY);
 
   window.location.href = ROUTES.LOGIN;
 };

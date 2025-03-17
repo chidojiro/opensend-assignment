@@ -12,7 +12,7 @@ type Props = {
 
 export const AppHeader = ({ authenticated }: Props) => {
   return (
-    <header className='sticky z-header top-0 flex items-center justify-between bg-gray-300 h-12 px-4 py-1.5'>
+    <header className='sticky z-header top-0 flex items-center justify-between bg-theme-gray-300 h-12 px-4 py-1.5'>
       <div className='flex items-center'>
         {authenticated && <AppSidebarButton />}
         <Link to={ROUTES.HOME}>
@@ -22,7 +22,7 @@ export const AppHeader = ({ authenticated }: Props) => {
       <div className='flex items-center gap-4'>
         <button
           type='button'
-          className='flex items-center justify-center w-7 h-7 bg-gray-400/50 rounded-full'
+          className='flex items-center justify-center w-7 h-7 bg-theme-gray-900/10 rounded-full'
           onClick={toggleDarkMode}
         >
           <SunMedium className='dark:hidden' size={16} />

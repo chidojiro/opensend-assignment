@@ -2,12 +2,27 @@
 
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #288364;
-
   --spacing-header: 3rem;
+
+  --z-index-header: 50;
+  --z-index-dialog: 60;
+  --z-index-drawer: 40;
+  
+  --color-primary: #288364;
+  --color-theme-contrast: light-dark(var(--color-white), var(--color-gray-950));
+  --color-theme-gray-50: light-dark(var(--color-gray-50), var(--color-gray-900));
+  --color-theme-gray-100: light-dark(var(--color-gray-100), var(--color-gray-800));
+  --color-theme-gray-200: light-dark(var(--color-gray-200), var(--color-gray-700));
+  --color-theme-gray-300: light-dark(var(--color-gray-300), var(--color-gray-600));
+  --color-theme-gray-400: light-dark(var(--color-gray-400), var(--color-gray-500));
+  --color-theme-gray-500: light-dark(var(--color-gray-500), var(--color-gray-400));
+  --color-theme-gray-600: light-dark(var(--color-gray-600), var(--color-gray-300));
+  --color-theme-gray-700: light-dark(var(--color-gray-700), var(--color-gray-200));
+  --color-theme-gray-800: light-dark(var(--color-gray-800), var(--color-gray-100));
+  --color-theme-gray-900: light-dark(var(--color-gray-900), var(--color-gray-50));
 }
 
 @layer base {
@@ -19,10 +34,10 @@
     box-sizing: inherit;
   }
 
-  html {
+  :root {
     box-sizing: border-box;
 
-    @apply dark:text-gray-100;
+    @apply text-theme-gray-900;
   }
 
   button {
@@ -35,5 +50,13 @@
 }
 
 div.react-grid-item.react-grid-placeholder {
-  @apply bg-gray-400/70 rounded-xl;
+  @apply bg-theme-gray-500 rounded-xl;
+}
+
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }

@@ -5,12 +5,10 @@ export const useInjectInitialTheme = () => {
   useLayoutEffect(() => {
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
-      : undefined;
+      : 'light';
 
     const theme = getLocalStorageTheme() || systemTheme;
 
-    if (theme === 'dark') {
-      document.documentElement.dataset.theme = 'dark';
-    }
+    document.documentElement.classList.add(theme);
   }, []);
 };

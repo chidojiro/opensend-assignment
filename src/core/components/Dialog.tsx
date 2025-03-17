@@ -30,8 +30,8 @@ export const DialogContent = forwardRef<
         [
           'fixed z-dialog left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]',
           'w-[1024px] max-w-[calc(100%-2rem)]',
-          'border border-gray-300 dark:border-gray-600 shadow-lg rounded-xl',
-          'bg-gray-100 dark:bg-gray-700',
+          'border border-theme-gray-300 shadow-lg rounded-xl',
+          'bg-theme-gray-100',
           'duration-200',
           'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
           'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
@@ -73,7 +73,7 @@ export const DialogHeader = ({
     </div>
     <div className='flex flex-col items-center justify-center'>
       <DialogPrimitive.Title className='text-2xl font-bold'>{title}</DialogPrimitive.Title>
-      <DialogPrimitive.Description className='text-gray-500'>
+      <DialogPrimitive.Description className='text-theme-gray-500'>
         {description}
       </DialogPrimitive.Description>
     </div>

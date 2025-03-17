@@ -33,7 +33,7 @@ export const WidgetCardContainer = ({ children, className, widget, ...restProps 
   };
 
   const containerClassName = classNames(
-    'flex flex-col w-full h-full border border-gray-300 rounded-xl shadow p-2 sm:p-4',
+    'flex flex-col w-full h-full bg-theme-gray-300/20 border border-theme-gray-300 rounded-xl shadow p-2 sm:p-4',
     className,
   );
 

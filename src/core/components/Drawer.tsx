@@ -49,9 +49,9 @@ const DrawerContent = forwardRef<
           'top-header',
           'w-96 max-w-[85vw] h-[calc(100vh-48px)]',
           'py-5 px-4',
-          'bg-gray-100 dark:bg-gray-700',
+          'bg-theme-gray-100',
           'overflow-y-auto',
-          'border-r border-gray-300 dark:border-gray-600',
+          'border-r border-theme-gray-300',
           'flex flex-col',
           className,
         )}

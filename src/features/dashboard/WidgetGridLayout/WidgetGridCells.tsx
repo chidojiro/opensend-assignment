@@ -26,7 +26,7 @@ export const WidgetGridCells = ({ isGridVisible, gap, activeCols, maxY, pxPerUni
         {range(activeCols * (maxY + EXTRA_ROWS)).map((i) => (
           <div
             key={i}
-            className='bg-gray-200/40 dark:bg-gray-700/40 shrink-0'
+            className='bg-theme-gray-200/60 shrink-0'
             style={{ height: pxPerUnit, width: pxPerUnit }}
           />
         ))}

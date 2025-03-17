@@ -33,7 +33,7 @@ export const MetricValueSection = ({ widget, className }: Props) => {
   return (
     <Card className={classNames('h-fit', className)} footer={DESCRIPTIONS[widget.type]}>
       <div className='flex flex-col gap-1'>
-        <h3 className='text-gray-400 font-semibold uppercase'>{LABELS[widget.type]}</h3>
+        <h3 className='text-theme-gray-400 font-semibold uppercase'>{LABELS[widget.type]}</h3>
         <div className='flex items-center gap-2'>
           <Icon className='shrink-0' />
           <p className='text-2xl font-semibold'>{widget.value}</p>

@@ -48,12 +48,12 @@ export const InputContainer = forwardRef<HTMLDivElement, Props>(
           className={classNames(
             'w-full',
             'flex items-center gap-2',
-            'rounded border border-gray-400/80 overflow-hidden',
+            'rounded border border-theme-gray-400 overflow-hidden',
             'px-3 py-1.5',
-            '[&_svg]:w-4 [&_svg]:h-4 [&_svg]:text-gray-600 dark:[&_svg]:text-gray-400',
+            '[&_svg]:w-4 [&_svg]:h-4 [&_svg]:text-theme-gray-600',
             error
               ? 'border-red-500'
-              : 'focus-within:border-gray-800 dark:focus-within:border-gray-200 group-data-[state=open]:border-gray-800 dark:group-data-[state=open]:border-gray-200',
+              : 'focus-within:border-theme-gray-600 group-data-[state=open]:border-theme-gray-600',
           )}
         >
           {!!prefix && <div className='shrink-0 flex items-center justify-center'>{prefix}</div>}
