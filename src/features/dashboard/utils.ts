@@ -12,7 +12,7 @@ export const isValidLayout = (
     return false;
   }
 
-  if (layout.w > cols) {
+  if (layout.x + layout.w > cols) {
     return false;
   }
 
