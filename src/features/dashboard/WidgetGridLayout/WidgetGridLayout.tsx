@@ -112,7 +112,7 @@ export const WidgetGridLayout = ({
         margin={[gap, gap]}
         breakpoints={WIDGET_GRID_BREAKPOINTS}
         resizeHandle={
-          <div className='react-resizable-handle absolute bottom-0 right-0 z-10 rotate-90 flex items-center justify-center'>
+          <div className='react-resizable-handle absolute bottom-0 right-0 z-10 rotate-90 flex items-center justify-center select-none'>
             <Maximize2 size={10} />
           </div>
         }
