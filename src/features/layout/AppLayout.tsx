@@ -1,9 +1,14 @@
-import { Outlet } from 'react-router';
+import { Suspense } from 'react';
+import { AppLoading } from './AppLoading';
 
-export const AppLayout = () => {
+type Props = {
+  children: React.ReactNode;
+};
+
+export const AppLayout = ({ children }: Props) => {
   return (
     <main className='bg-theme-gray-100 flex flex-col min-h-screen max-w-screen'>
-      <Outlet />
+      <Suspense fallback={<AppLoading />}>{children}</Suspense>
     </main>
   );
 };

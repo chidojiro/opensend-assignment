@@ -3,7 +3,7 @@ import { AppHeader } from './AppHeader';
 import { AppLogo } from './AppLogo';
 import { ContentCard } from './ContentCard';
 import { AppLoading } from './AppLoading';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { AppContent } from './AppContent';
 
 type Props = {

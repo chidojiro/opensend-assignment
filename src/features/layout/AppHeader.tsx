@@ -3,7 +3,7 @@ import { AppSidebarButton } from './AppSidebarButton';
 import { Moon, SunMedium } from 'lucide-react';
 import { AppLogo } from './AppLogo';
 import { toggleDarkMode } from '@/core/utils/theme';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { ROUTES } from '@/features/routing/constants';
 
 type Props = {
@@ -15,9 +15,13 @@ export const AppHeader = ({ authenticated }: Props) => {
     <header className='sticky z-header top-0 flex items-center justify-between bg-theme-gray-300 h-12 px-4 py-1.5'>
       <div className='flex items-center'>
         {authenticated && <AppSidebarButton />}
-        <Link to={ROUTES.HOME}>
+        {authenticated ? (
+          <Link to={ROUTES.HOME}>
+            <AppLogo />
+          </Link>
+        ) : (
           <AppLogo />
-        </Link>
+        )}
       </div>
       <div className='flex items-center gap-4'>
         <button

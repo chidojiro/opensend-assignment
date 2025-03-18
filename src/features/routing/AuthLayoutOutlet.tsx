@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router';
+import { Navigate, Outlet } from 'react-router-dom';
 import { isAccessTokenValid } from '../auth/utils';
 import { ROUTES } from './constants';
 import { AuthLayout } from '@/features/layout/AuthLayout';

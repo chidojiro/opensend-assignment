@@ -2,7 +2,7 @@ import { Drawer, DrawerContent } from '@/core/components/Drawer';
 import { ROUTES } from '@/features/routing/constants';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { useProfileQuery } from '@/features/auth/rtkApis';
 import { classNames } from '@/core/utils/string';
 

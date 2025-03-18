@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
+import { useLocation } from 'react-router-dom';
+import { AppContent } from './AppContent';
 import { AppHeader } from './AppHeader';
 import { AppLoading } from './AppLoading';
-import { useLocation } from 'react-router';
-import { AppContent } from './AppContent';
 
 type Props = {
   children: React.ReactNode;

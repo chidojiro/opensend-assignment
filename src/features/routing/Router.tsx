@@ -1,38 +1,66 @@
-import { AppLayout } from '@/features/layout/AppLayout';
-import NotFoundPage from '@/features/layout/NotFoundPage';
 import { lazy } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { AppLayoutOutlet } from './AppLayoutOutlet';
 import { AuthLayoutOutlet } from './AuthLayoutOutlet';
-import { AuthorizedOutlet } from './AuthorizedOutlet';
 import { ROUTES } from './constants';
-import { ProtectedOutlet } from './ProtectedOutlet';
+import { homePageLoader, protectedLayoutLoader } from './loaders';
+import { ProtectedLayoutOutlet } from './ProtectedLayoutOutlet';
 
 const HomePage = lazy(() => import('./HomePage'));
 const LoginPage = lazy(() => import('@/features/auth/LoginPage'));
 const AdminPage = lazy(() => import('@/features/admin/AdminPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/DashboardPage'));
 const OnboardingPage = lazy(() => import('@/features/onboarding/OnboardingPage'));
+const ErrorPage = lazy(() => import('@/features/layout/ErrorPage'));
+const NotFoundPage = lazy(() => import('@/features/layout/NotFoundPage'));
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AppLayoutOutlet />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        element: <AuthLayoutOutlet />,
+        children: [
+          {
+            path: ROUTES.LOGIN,
+            element: <LoginPage />,
+          },
+        ],
+      },
+      {
+        element: <ProtectedLayoutOutlet />,
+        loader: protectedLayoutLoader,
+        children: [
+          {
+            path: ROUTES.HOME,
+            index: true,
+            element: <HomePage />,
+            loader: homePageLoader,
+          },
+          {
+            path: ROUTES.ADMIN,
+            element: <AdminPage />,
+          },
+          {
+            path: ROUTES.DASHBOARD,
+            element: <DashboardPage />,
+          },
+          {
+            path: ROUTES.ONBOARDING,
+            element: <OnboardingPage />,
+          },
+        ],
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
+    ],
+  },
+]);
 
 export const Router = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AppLayout />}>
-          <Route element={<AuthLayoutOutlet />}>
-            <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-          </Route>
-
-          <Route element={<ProtectedOutlet />}>
-            <Route element={<AuthorizedOutlet authorizedTypes={['ADMIN']} />}>
-              <Route path={ROUTES.ADMIN} element={<AdminPage />} />
-            </Route>
-            <Route path={ROUTES.HOME} element={<HomePage />} />
-            <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
-            <Route path={ROUTES.ONBOARDING} element={<OnboardingPage />} />
-          </Route>
-          <Route path='*' element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 };

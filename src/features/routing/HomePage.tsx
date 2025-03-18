@@ -1,36 +1,8 @@
-import { isAccessTokenValid, logout } from '@/features/auth/utils';
-import { Navigate } from 'react-router';
-import { ROUTES } from './constants';
-import { useProfileQuery } from '@/features/auth/rtkApis';
-import { AppLoading } from '@/features/layout/AppLoading';
-import { useEffect, useState } from 'react';
-import { getDefaultPathname } from './utils';
+import { Navigate, useLoaderData } from 'react-router-dom';
+import { HomePageLoaderData } from './loaders';
 
 export default function HomePage() {
-  const [defaultPathname, setDefaultPathname] = useState<string>();
+  const loaderData = useLoaderData() as HomePageLoaderData;
 
-  const { data } = useProfileQuery();
-
-  useEffect(() => {
-    (async () => {
-      if (!data) return;
-
-      try {
-        const pathname = await getDefaultPathname(data.view);
-        setDefaultPathname(pathname);
-      } catch {
-        logout();
-      }
-    })();
-  }, [data]);
-
-  if (!isAccessTokenValid()) {
-    return <Navigate to={ROUTES.LOGIN} />;
-  }
-
-  if (!defaultPathname) {
-    return <AppLoading />;
-  }
-
-  return <Navigate to={defaultPathname} replace />;
+  return <Navigate to={loaderData.defaultPathname} replace />;
 }

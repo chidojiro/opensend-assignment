@@ -19,7 +19,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         'solid-primary': 'bg-primary text-white hover:bg-primary/85',
-        'outline-secondary': 'border-theme-gray-400 hover:text-theme-contrast/80',
+        'outline-secondary': 'border-theme-gray-400 hover:text-theme-gray-900/80',
         'ghost-secondary': 'hover:bg-theme-gray-200/80',
       },
       pill: {

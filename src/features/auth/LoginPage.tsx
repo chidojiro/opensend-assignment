@@ -7,7 +7,7 @@ import { getDefaultPathname } from '@/features/routing/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, Lock, Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useLoginMutation } from './rtkApis';
 import { setAccessToken, setClientToken } from './utils';

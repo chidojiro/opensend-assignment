@@ -12,7 +12,6 @@
   --z-index-drawer: 40;
   
   --color-primary: #288364;
-  --color-theme-contrast: light-dark(var(--color-white), var(--color-gray-950));
   --color-theme-gray-50: light-dark(var(--color-gray-50), var(--color-gray-900));
   --color-theme-gray-100: light-dark(var(--color-gray-100), var(--color-gray-800));
   --color-theme-gray-200: light-dark(var(--color-gray-200), var(--color-gray-700));
@@ -30,14 +29,14 @@
   ::after,
   ::before,
   ::backdrop {
-    font-family: 'Darker Grotesque', 'Inter', sans-serif;
+    font-family: inherit;
     box-sizing: inherit;
   }
 
   :root {
-    box-sizing: border-box;
+    font-family: 'Darker Grotesque', 'Inter', sans-serif;
 
-    @apply text-theme-gray-900;
+    @apply text-theme-gray-900 box-border;
   }
 
   button {

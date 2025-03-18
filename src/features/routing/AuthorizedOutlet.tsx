@@ -1,5 +1,5 @@
 import { useProfileQuery } from '@/features/auth/rtkApis';
-import { Navigate, Outlet } from 'react-router';
+import { Navigate, Outlet } from 'react-router-dom';
 import { ROUTES } from './constants';
 import { View } from '@/features/auth/types';
 import { AppLoading } from '@/features/layout/AppLoading';
