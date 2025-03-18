@@ -24,7 +24,7 @@ export const ResponsiveWidgetGridLayout = ({
   ...restProps
 }: Props) => {
   const [isGridVisible, setIsGridVisible] = useState(false);
-  const [breakpoint, setBreakpoint] = useState<WidgetLayoutBreakpoint>('lg');
+  const [breakpoint, setBreakpoint] = useState<WidgetLayoutBreakpoint>('md');
   const [maxY, setMaxY] = useState<number>(0);
   const [pxPerUnit, setPxPerUnit] = useState<number>(0);
 
@@ -95,7 +95,9 @@ export const ResponsiveWidgetGridLayout = ({
         <ReactGridLayout
           cols={colsByBreakpoint}
           breakpoints={WIDGET_GRID_BREAKPOINTS}
-          onBreakpointChange={(breakpoint) => setBreakpoint(breakpoint as WidgetLayoutBreakpoint)}
+          onBreakpointChange={(breakpoint) => {
+            setBreakpoint(breakpoint as WidgetLayoutBreakpoint);
+          }}
         />
       </div>
     </div>

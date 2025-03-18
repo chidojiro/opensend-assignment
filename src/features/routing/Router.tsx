@@ -3,7 +3,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppLayoutOutlet } from './AppLayoutOutlet';
 import { AuthLayoutOutlet } from './AuthLayoutOutlet';
 import { ROUTES } from './constants';
-import { authLayoutLoader, homePageLoader, protectedLayoutLoader } from './loaders';
+import {
+  authLayoutLoader,
+  authorizedLayoutLoader,
+  homePageLoader,
+  protectedLayoutLoader,
+} from './loaders';
 import { ProtectedLayoutOutlet } from './ProtectedLayoutOutlet';
 
 const HomePage = lazy(() => import('./HomePage'));
@@ -35,14 +40,15 @@ const router = createBrowserRouter([
         loader: protectedLayoutLoader,
         children: [
           {
+            path: ROUTES.ADMIN,
+            loader: authorizedLayoutLoader(['ADMIN']),
+            element: <AdminPage />,
+          },
+          {
             path: ROUTES.HOME,
             index: true,
             element: <HomePage />,
             loader: homePageLoader,
-          },
-          {
-            path: ROUTES.ADMIN,
-            element: <AdminPage />,
           },
           {
             path: ROUTES.DASHBOARD,

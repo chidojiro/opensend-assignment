@@ -9,6 +9,6 @@ export type Widget = {
   preserveAspectRatio?: boolean;
 };
 
-export type WidgetLayoutBreakpoint = 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
+export type WidgetLayoutBreakpoint = 'md' | 'sm' | 'xs' | 'xxs';
 
 export type WidgetLayout = Record<WidgetLayoutBreakpoint, Layout[]>;
