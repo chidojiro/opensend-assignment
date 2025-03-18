@@ -10,7 +10,7 @@
   --z-index-header: 50;
   --z-index-dialog: 60;
   --z-index-drawer: 40;
-  
+
   --color-primary: #288364;
   --color-theme-gray-50: light-dark(var(--color-gray-50), var(--color-gray-900));
   --color-theme-gray-100: light-dark(var(--color-gray-100), var(--color-gray-800));

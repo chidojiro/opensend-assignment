@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppLayoutOutlet } from './AppLayoutOutlet';
 import { AuthLayoutOutlet } from './AuthLayoutOutlet';
 import { ROUTES } from './constants';
-import { homePageLoader, protectedLayoutLoader } from './loaders';
+import { authLayoutLoader, homePageLoader, protectedLayoutLoader } from './loaders';
 import { ProtectedLayoutOutlet } from './ProtectedLayoutOutlet';
 
 const HomePage = lazy(() => import('./HomePage'));
@@ -22,6 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         element: <AuthLayoutOutlet />,
+        loader: authLayoutLoader,
         children: [
           {
             path: ROUTES.LOGIN,
